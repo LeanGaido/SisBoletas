@@ -1,6 +1,3 @@
-C:\Users\pc-1793\source\repos\SecSisBoletas\SecSisBoletas\obj\Debug\RdlCompile.cache
-C:\Users\pc-1793\source\repos\SecSisBoletas\SecSisBoletas\obj\Debug\RdlCompile.compiled
-C:\Users\pc-1793\source\repos\SecSisBoletas\SecSisBoletas\obj\Debug\SecSisBoletas.csproj.CoreCompileInputs.cache
 C:\Users\pc-1793\source\repos\SecSisBoletas\SecSisBoletas\bin\SqlServerTypes\x64\msvcr120.dll
 C:\Users\pc-1793\source\repos\SecSisBoletas\SecSisBoletas\bin\SqlServerTypes\x64\SqlServerSpatial140.dll
 C:\Users\pc-1793\source\repos\SecSisBoletas\SecSisBoletas\bin\SqlServerTypes\x86\msvcr120.dll
@@ -118,7 +115,6 @@ C:\Users\pc-1793\source\repos\SecSisBoletas\SecSisBoletas\bin\Microsoft.VisualSt
 C:\Users\pc-1793\source\repos\SecSisBoletas\SecSisBoletas\bin\VSLangProj80.dll
 C:\Users\pc-1793\source\repos\SecSisBoletas\SecSisBoletas\bin\Microsoft.VisualStudio.ManagedInterfaces.dll
 C:\Users\pc-1793\source\repos\SecSisBoletas\SecSisBoletas\bin\Microsoft.VisualStudio.Debugger.Interop.11.0.dll
-C:\Users\pc-1793\source\repos\SecSisBoletas\SecSisBoletas\bin\System.Threading.Tasks.Dataflow.dll
 C:\Users\pc-1793\source\repos\SecSisBoletas\SecSisBoletas\bin\Microsoft.VisualStudio.GraphModel.dll
 C:\Users\pc-1793\source\repos\SecSisBoletas\SecSisBoletas\bin\Microsoft.MSXML.dll
 C:\Users\pc-1793\source\repos\SecSisBoletas\SecSisBoletas\bin\Microsoft.Build.Utilities.Core.dll
