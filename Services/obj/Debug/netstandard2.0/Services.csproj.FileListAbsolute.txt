@@ -1,0 +1,13 @@
+C:\Users\pc-1793\source\repos\SecSisBoletas\Services\bin\Debug\netstandard2.0\Services.deps.json
+C:\Users\pc-1793\source\repos\SecSisBoletas\Services\bin\Debug\netstandard2.0\Services.dll
+C:\Users\pc-1793\source\repos\SecSisBoletas\Services\bin\Debug\netstandard2.0\DAL.dll
+C:\Users\pc-1793\source\repos\SecSisBoletas\Services\bin\Debug\netstandard2.0\EntityFramework.dll
+C:\Users\pc-1793\source\repos\SecSisBoletas\Services\bin\Debug\netstandard2.0\DAL.pdb
+C:\Users\pc-1793\source\repos\SecSisBoletas\Services\bin\Debug\netstandard2.0\DAL.dll.config
+C:\Users\pc-1793\source\repos\SecSisBoletas\Services\bin\Debug\netstandard2.0\EntityFramework.xml
+C:\Users\pc-1793\source\repos\SecSisBoletas\Services\bin\Debug\netstandard2.0\es\EntityFramework.resources.dll
+C:\Users\pc-1793\source\repos\SecSisBoletas\Services\obj\Debug\netstandard2.0\Services.csprojAssemblyReference.cache
+C:\Users\pc-1793\source\repos\SecSisBoletas\Services\obj\Debug\netstandard2.0\Services.csproj.CoreCompileInputs.cache
+C:\Users\pc-1793\source\repos\SecSisBoletas\Services\obj\Debug\netstandard2.0\Services.AssemblyInfoInputs.cache
+C:\Users\pc-1793\source\repos\SecSisBoletas\Services\obj\Debug\netstandard2.0\Services.AssemblyInfo.cs
+C:\Users\pc-1793\source\repos\SecSisBoletas\Services\obj\Debug\netstandard2.0\Services.csproj.CopyComplete
