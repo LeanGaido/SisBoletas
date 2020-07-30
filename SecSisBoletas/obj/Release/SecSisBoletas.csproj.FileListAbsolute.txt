@@ -118,7 +118,6 @@ C:\Users\pc-1793\source\repos\SecSisBoletas\SecSisBoletas\bin\Microsoft.VisualSt
 C:\Users\pc-1793\source\repos\SecSisBoletas\SecSisBoletas\bin\VSLangProj80.dll
 C:\Users\pc-1793\source\repos\SecSisBoletas\SecSisBoletas\bin\Microsoft.VisualStudio.ManagedInterfaces.dll
 C:\Users\pc-1793\source\repos\SecSisBoletas\SecSisBoletas\bin\Microsoft.VisualStudio.Debugger.Interop.11.0.dll
-C:\Users\pc-1793\source\repos\SecSisBoletas\SecSisBoletas\bin\System.Threading.Tasks.Dataflow.dll
 C:\Users\pc-1793\source\repos\SecSisBoletas\SecSisBoletas\bin\Microsoft.VisualStudio.GraphModel.dll
 C:\Users\pc-1793\source\repos\SecSisBoletas\SecSisBoletas\bin\Microsoft.MSXML.dll
 C:\Users\pc-1793\source\repos\SecSisBoletas\SecSisBoletas\bin\Microsoft.Build.Utilities.Core.dll
@@ -231,9 +230,6 @@ C:\Users\pc-1793\source\repos\SecSisBoletas\SecSisBoletas\bin\es\Microsoft.Visua
 C:\Users\pc-1793\source\repos\SecSisBoletas\SecSisBoletas\bin\es\Microsoft.VisualStudio.Data.Core.resources.dll
 C:\Users\pc-1793\source\repos\SecSisBoletas\SecSisBoletas\bin\es\Microsoft.VisualStudio.GraphModel.resources.dll
 C:\Users\pc-1793\source\repos\SecSisBoletas\SecSisBoletas\obj\Release\SecSisBoletas.csprojAssemblyReference.cache
-C:\Users\pc-1793\source\repos\SecSisBoletas\SecSisBoletas\obj\Release\RdlCompile.cache
-C:\Users\pc-1793\source\repos\SecSisBoletas\SecSisBoletas\obj\Release\RdlCompile.compiled
-C:\Users\pc-1793\source\repos\SecSisBoletas\SecSisBoletas\obj\Release\SecSisBoletas.csproj.CoreCompileInputs.cache
 C:\Users\pc-1793\source\repos\SecSisBoletas\SecSisBoletas\obj\Release\SecSisBoletas.csproj.CopyComplete
 C:\Users\pc-1793\source\repos\SecSisBoletas\SecSisBoletas\obj\Release\SecSisBoletas.dll
 C:\Users\pc-1793\source\repos\SecSisBoletas\SecSisBoletas\obj\Release\SecSisBoletas.pdb

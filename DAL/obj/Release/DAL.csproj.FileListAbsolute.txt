@@ -27,7 +27,6 @@ C:\Users\pc-1793\source\repos\SecSisBoletas\DAL\obj\Release\DAL.Migrations.total
 C:\Users\pc-1793\source\repos\SecSisBoletas\DAL\obj\Release\DAL.Migrations.totalSueldos2Y5.resources
 C:\Users\pc-1793\source\repos\SecSisBoletas\DAL\obj\Release\DAL.Migrations.FixAfiliado.resources
 C:\Users\pc-1793\source\repos\SecSisBoletas\DAL\obj\Release\DAL.csproj.GenerateResource.cache
-C:\Users\pc-1793\source\repos\SecSisBoletas\DAL\obj\Release\DAL.csproj.CoreCompileInputs.cache
 C:\Users\pc-1793\source\repos\SecSisBoletas\DAL\obj\Release\DAL.csproj.CopyComplete
 C:\Users\pc-1793\source\repos\SecSisBoletas\DAL\obj\Release\DAL.dll
 C:\Users\pc-1793\source\repos\SecSisBoletas\DAL\obj\Release\DAL.pdb
@@ -75,3 +74,10 @@ C:\Users\LeaN\source\repos\SecSisBoletas\DAL\obj\Release\DAL.Migrations.tblBolet
 C:\Users\LeaN\source\repos\SecSisBoletas\DAL\obj\Release\DAL.Migrations.tblBoletasEspeciales_FechaVencimiento.resources
 C:\Users\LeaN\source\repos\SecSisBoletas\DAL\obj\Release\DAL.Migrations.tblBoletas_cantEmpleados_Aportes2_cantAfiliados_aportes5.resources
 C:\Users\LeaN\source\repos\SecSisBoletas\DAL\obj\Release\DAL.Migrations.DatosDeBaja_tblBoletastblBoletasEspeciales.resources
+C:\Users\pc-1793\source\repos\SecSisBoletas\DAL\obj\Release\DAL.Migrations.tblBoletaAportesEspeciales.resources
+C:\Users\pc-1793\source\repos\SecSisBoletas\DAL\obj\Release\DAL.Migrations.tblBoletasAportesEspeciales_BoletaPagada.resources
+C:\Users\pc-1793\source\repos\SecSisBoletas\DAL\obj\Release\DAL.Migrations.tblBoletaAportesEspecial_CamposEmpresa_NoRequeridos.resources
+C:\Users\pc-1793\source\repos\SecSisBoletas\DAL\obj\Release\DAL.Migrations.tblBoletasEspeciales_Periodo.resources
+C:\Users\pc-1793\source\repos\SecSisBoletas\DAL\obj\Release\DAL.Migrations.tblBoletasEspeciales_FechaVencimiento.resources
+C:\Users\pc-1793\source\repos\SecSisBoletas\DAL\obj\Release\DAL.Migrations.tblBoletas_cantEmpleados_Aportes2_cantAfiliados_aportes5.resources
+C:\Users\pc-1793\source\repos\SecSisBoletas\DAL\obj\Release\DAL.Migrations.DatosDeBaja_tblBoletastblBoletasEspeciales.resources

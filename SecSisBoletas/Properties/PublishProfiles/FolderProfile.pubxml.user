@@ -6,7 +6,7 @@ edite el archivo MSBuild. Visite https://go.microsoft.com/fwlink/?LinkID=208121 
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <TimeStampOfAssociatedLegacyPublishXmlFile />
-    <_PublishTargetUrl>C:\Users\LeaN\Desktop\Publicaciones\SecSisBoletas</_PublishTargetUrl>
+    <_PublishTargetUrl>C:\Users\pc-1793\Desktop\publicaciones\Sindicato de Empleados de Comercio\Publicacion SecSisBoletas</_PublishTargetUrl>
   </PropertyGroup>
   <ItemGroup>
     <File Include="App_Browsers/qt.browser">
@@ -610,7 +610,7 @@ edite el archivo MSBuild. Visite https://go.microsoft.com/fwlink/?LinkID=208121 
       <publishTime>01/01/0001 00:00:00</publishTime>
     </File>
     <File Include="Areas/Administrador/Content/images/Thumbs.db">
-      <publishTime>01/01/0001 00:00:00</publishTime>
+      <publishTime>04/24/2019 17:13:00</publishTime>
     </File>
     <File Include="Areas/Administrador/Content/images/tooltip/Euclid.png">
       <publishTime>01/01/0001 00:00:00</publishTime>
@@ -673,70 +673,70 @@ edite el archivo MSBuild. Visite https://go.microsoft.com/fwlink/?LinkID=208121 
       <publishTime>01/01/0001 00:00:00</publishTime>
     </File>
     <File Include="Areas/Administrador/Content/images/XindicoAdmin-bg.png">
-      <publishTime>01/01/0001 00:00:00</publishTime>
+      <publishTime>04/24/2019 17:13:00</publishTime>
     </File>
     <File Include="Areas/Administrador/Content/images/XindicoAdmin-isologo.png">
-      <publishTime>01/01/0001 00:00:00</publishTime>
+      <publishTime>04/24/2019 17:13:00</publishTime>
     </File>
     <File Include="Areas/Administrador/Content/images/XindicoAdmin-logo-min.png">
-      <publishTime>01/01/0001 00:00:00</publishTime>
+      <publishTime>04/24/2019 17:13:00</publishTime>
     </File>
     <File Include="Areas/Administrador/Content/images/XIndicoAdmin-texto.png">
-      <publishTime>01/01/0001 00:00:00</publishTime>
+      <publishTime>04/24/2019 17:13:00</publishTime>
     </File>
     <File Include="Areas/Administrador/Content/js/cbpFWTabs.js">
-      <publishTime>01/01/0001 00:00:00</publishTime>
+      <publishTime>04/24/2019 17:13:00</publishTime>
     </File>
     <File Include="Areas/Administrador/Content/js/chartjs.init.js">
-      <publishTime>01/01/0001 00:00:00</publishTime>
+      <publishTime>04/24/2019 17:13:00</publishTime>
     </File>
     <File Include="Areas/Administrador/Content/js/chat.js">
-      <publishTime>01/01/0001 00:00:00</publishTime>
+      <publishTime>04/24/2019 17:13:00</publishTime>
     </File>
     <File Include="Areas/Administrador/Content/js/custom.min.js">
-      <publishTime>01/01/0001 00:00:00</publishTime>
+      <publishTime>04/24/2019 17:13:00</publishTime>
     </File>
     <File Include="Areas/Administrador/Content/js/dashboard1.js">
-      <publishTime>01/01/0001 00:00:00</publishTime>
+      <publishTime>04/24/2019 17:13:00</publishTime>
     </File>
     <File Include="Areas/Administrador/Content/js/easy-pie-chart.init.js">
-      <publishTime>01/01/0001 00:00:00</publishTime>
+      <publishTime>04/24/2019 17:13:00</publishTime>
     </File>
     <File Include="Areas/Administrador/Content/js/flot-data.js">
-      <publishTime>01/01/0001 00:00:00</publishTime>
+      <publishTime>04/24/2019 17:13:00</publishTime>
     </File>
     <File Include="Areas/Administrador/Content/js/footable-init.js">
-      <publishTime>01/01/0001 00:00:00</publishTime>
+      <publishTime>04/24/2019 17:13:00</publishTime>
     </File>
     <File Include="Areas/Administrador/Content/js/jasny-bootstrap.js">
-      <publishTime>01/01/0001 00:00:00</publishTime>
+      <publishTime>04/24/2019 17:13:00</publishTime>
     </File>
     <File Include="Areas/Administrador/Content/js/jquery.charts-sparkline.js">
-      <publishTime>01/01/0001 00:00:00</publishTime>
+      <publishTime>04/24/2019 17:13:00</publishTime>
     </File>
     <File Include="Areas/Administrador/Content/js/jquery.slimscroll.js">
-      <publishTime>01/01/0001 00:00:00</publishTime>
+      <publishTime>04/24/2019 17:13:00</publishTime>
     </File>
     <File Include="Areas/Administrador/Content/js/jsgrid-init.js">
-      <publishTime>01/01/0001 00:00:00</publishTime>
+      <publishTime>04/24/2019 17:13:00</publishTime>
     </File>
     <File Include="Areas/Administrador/Content/js/mask.js">
-      <publishTime>01/01/0001 00:00:00</publishTime>
+      <publishTime>04/24/2019 17:13:00</publishTime>
     </File>
     <File Include="Areas/Administrador/Content/js/morris-data.js">
-      <publishTime>01/01/0001 00:00:00</publishTime>
+      <publishTime>04/24/2019 17:13:00</publishTime>
     </File>
     <File Include="Areas/Administrador/Content/js/toastr.js">
-      <publishTime>01/01/0001 00:00:00</publishTime>
+      <publishTime>04/24/2019 17:13:00</publishTime>
     </File>
     <File Include="Areas/Administrador/Content/js/validator.js">
-      <publishTime>01/01/0001 00:00:00</publishTime>
+      <publishTime>04/24/2019 17:13:00</publishTime>
     </File>
     <File Include="Areas/Administrador/Content/js/waves.js">
-      <publishTime>01/01/0001 00:00:00</publishTime>
+      <publishTime>04/24/2019 17:13:00</publishTime>
     </File>
     <File Include="Areas/Administrador/Content/js/widget.js">
-      <publishTime>01/01/0001 00:00:00</publishTime>
+      <publishTime>04/24/2019 17:13:00</publishTime>
     </File>
     <File Include="Areas/Administrador/Content/less/icons/font-awesome/fonts/fontawesome-webfont3295.eot">
       <publishTime>04/24/2019 17:13:01</publishTime>
@@ -1429,7 +1429,7 @@ edite el archivo MSBuild. Visite https://go.microsoft.com/fwlink/?LinkID=208121 
       <publishTime>06/03/2020 11:56:55</publishTime>
     </File>
     <File Include="Areas/Administrador/Views/BoletasAportesEspeciales/Create.cshtml">
-      <publishTime>05/06/2020 10:22:14</publishTime>
+      <publishTime>06/05/2020 10:22:14</publishTime>
     </File>
     <File Include="Areas/Administrador/Views/BoletasAportesEspeciales/Delete.cshtml">
       <publishTime>06/03/2020 10:02:34</publishTime>
@@ -1633,7 +1633,7 @@ edite el archivo MSBuild. Visite https://go.microsoft.com/fwlink/?LinkID=208121 
       <publishTime>09/11/2019 09:43:13</publishTime>
     </File>
     <File Include="Areas/Administrador/Views/Listados/IndexEmpresa.cshtml">
-      <publishTime>09/11/2019 10:49:17</publishTime>
+      <publishTime>07/29/2020 16:15:08</publishTime>
     </File>
     <File Include="Areas/Administrador/Views/Listados/IndexLicenciasEmpleados.cshtml">
       <publishTime>08/22/2019 10:27:40</publishTime>
@@ -3397,13 +3397,13 @@ edite el archivo MSBuild. Visite https://go.microsoft.com/fwlink/?LinkID=208121 
       <publishTime>09/10/2013 16:29:20</publishTime>
     </File>
     <File Include="bin/DAL.dll">
-      <publishTime>06/19/2020 10:06:24</publishTime>
+      <publishTime>07/29/2020 17:33:24</publishTime>
     </File>
     <File Include="bin/DAL.dll.config">
       <publishTime>02/18/2019 16:17:15</publishTime>
     </File>
     <File Include="bin/DAL.pdb">
-      <publishTime>06/19/2020 10:06:24</publishTime>
+      <publishTime>07/29/2020 17:33:24</publishTime>
     </File>
     <File Include="bin/de/Microsoft.ReportViewer.Common.resources.dll">
       <publishTime>09/17/2018 17:37:48</publishTime>
@@ -3430,10 +3430,10 @@ edite el archivo MSBuild. Visite https://go.microsoft.com/fwlink/?LinkID=208121 
       <publishTime>10/23/2017 13:15:20</publishTime>
     </File>
     <File Include="bin/EnvDTE.dll">
-      <publishTime>06/01/2020 18:04:34</publishTime>
+      <publishTime>11/05/2019 16:40:23</publishTime>
     </File>
     <File Include="bin/EnvDTE80.dll">
-      <publishTime>02/11/2018 18:07:07</publishTime>
+      <publishTime>11/05/2019 16:40:23</publishTime>
     </File>
     <File Include="bin/es/EntityFramework.resources.dll">
       <publishTime>10/23/2017 13:15:38</publishTime>
@@ -3469,10 +3469,10 @@ edite el archivo MSBuild. Visite https://go.microsoft.com/fwlink/?LinkID=208121 
       <publishTime>09/17/2018 17:37:48</publishTime>
     </File>
     <File Include="bin/es/Microsoft.VisualStudio.Data.Core.resources.dll">
-      <publishTime>01/01/0001 00:00:00</publishTime>
+      <publishTime>01/10/2020 18:50:31</publishTime>
     </File>
     <File Include="bin/es/Microsoft.VisualStudio.Data.Services.resources.dll">
-      <publishTime>01/01/0001 00:00:00</publishTime>
+      <publishTime>01/10/2020 18:50:31</publishTime>
     </File>
     <File Include="bin/es/Microsoft.VisualStudio.GraphModel.resources.dll">
       <publishTime>07/07/2015 01:26:06</publishTime>
@@ -3595,7 +3595,7 @@ edite el archivo MSBuild. Visite https://go.microsoft.com/fwlink/?LinkID=208121 
       <publishTime>05/24/2018 13:38:22</publishTime>
     </File>
     <File Include="bin/Microsoft.MSXML.dll">
-      <publishTime>06/01/2020 18:04:34</publishTime>
+      <publishTime>11/05/2019 16:40:23</publishTime>
     </File>
     <File Include="bin/Microsoft.Owin.dll">
       <publishTime>02/13/2018 16:28:04</publishTime>
@@ -3652,58 +3652,58 @@ edite el archivo MSBuild. Visite https://go.microsoft.com/fwlink/?LinkID=208121 
       <publishTime>07/07/2015 00:51:38</publishTime>
     </File>
     <File Include="bin/Microsoft.VisualStudio.Data.Core.dll">
-      <publishTime>01/01/0001 00:00:00</publishTime>
+      <publishTime>01/10/2020 18:50:31</publishTime>
     </File>
     <File Include="bin/Microsoft.VisualStudio.Data.Services.dll">
-      <publishTime>01/01/0001 00:00:00</publishTime>
+      <publishTime>01/10/2020 18:50:31</publishTime>
     </File>
     <File Include="bin/Microsoft.VisualStudio.Debugger.Interop.11.0.dll">
-      <publishTime>01/01/0001 00:00:00</publishTime>
+      <publishTime>01/10/2020 18:50:31</publishTime>
     </File>
     <File Include="bin/Microsoft.VisualStudio.Debugger.InteropA.dll">
-      <publishTime>01/01/0001 00:00:00</publishTime>
+      <publishTime>01/10/2020 18:50:31</publishTime>
     </File>
     <File Include="bin/Microsoft.VisualStudio.GraphModel.dll">
       <publishTime>07/07/2015 00:51:38</publishTime>
     </File>
     <File Include="bin/Microsoft.VisualStudio.ManagedInterfaces.dll">
-      <publishTime>01/01/0001 00:00:00</publishTime>
+      <publishTime>01/10/2020 18:50:31</publishTime>
     </File>
     <File Include="bin/Microsoft.VisualStudio.OLE.Interop.dll">
-      <publishTime>06/01/2020 18:04:34</publishTime>
+      <publishTime>11/05/2019 16:40:23</publishTime>
     </File>
     <File Include="bin/Microsoft.VisualStudio.ProjectAggregator.dll">
-      <publishTime>02/11/2018 18:07:07</publishTime>
+      <publishTime>11/05/2019 16:40:23</publishTime>
     </File>
     <File Include="bin/Microsoft.VisualStudio.Shell.Interop.10.0.dll">
-      <publishTime>02/11/2018 18:07:07</publishTime>
+      <publishTime>11/05/2019 16:40:23</publishTime>
     </File>
     <File Include="bin/Microsoft.VisualStudio.Shell.Interop.11.0.dll">
-      <publishTime>02/11/2018 18:07:07</publishTime>
+      <publishTime>11/05/2019 16:40:23</publishTime>
     </File>
     <File Include="bin/Microsoft.VisualStudio.Shell.Interop.8.0.dll">
-      <publishTime>06/01/2020 18:04:34</publishTime>
+      <publishTime>11/05/2019 16:40:23</publishTime>
     </File>
     <File Include="bin/Microsoft.VisualStudio.Shell.Interop.9.0.dll">
-      <publishTime>02/11/2018 18:07:07</publishTime>
+      <publishTime>11/05/2019 16:40:23</publishTime>
     </File>
     <File Include="bin/Microsoft.VisualStudio.Shell.Interop.dll">
-      <publishTime>06/01/2020 18:04:34</publishTime>
+      <publishTime>11/05/2019 16:40:23</publishTime>
     </File>
     <File Include="bin/Microsoft.VisualStudio.TemplateWizardInterface.dll">
-      <publishTime>01/01/0001 00:00:00</publishTime>
+      <publishTime>01/10/2020 18:50:31</publishTime>
     </File>
     <File Include="bin/Microsoft.VisualStudio.TextManager.Interop.10.0.dll">
-      <publishTime>02/11/2018 18:07:07</publishTime>
+      <publishTime>11/05/2019 16:40:23</publishTime>
     </File>
     <File Include="bin/Microsoft.VisualStudio.TextManager.Interop.8.0.dll">
-      <publishTime>06/01/2020 18:04:34</publishTime>
+      <publishTime>11/05/2019 16:40:23</publishTime>
     </File>
     <File Include="bin/Microsoft.VisualStudio.TextManager.Interop.dll">
-      <publishTime>06/01/2020 18:04:34</publishTime>
+      <publishTime>11/05/2019 16:40:23</publishTime>
     </File>
     <File Include="bin/Microsoft.VisualStudio.VSHelp.dll">
-      <publishTime>02/11/2018 18:07:07</publishTime>
+      <publishTime>11/05/2019 16:40:23</publishTime>
     </File>
     <File Include="bin/Microsoft.Web.Infrastructure.dll">
       <publishTime>07/25/2012 11:48:56</publishTime>
@@ -3904,10 +3904,10 @@ edite el archivo MSBuild. Visite https://go.microsoft.com/fwlink/?LinkID=208121 
       <publishTime>09/17/2018 17:37:48</publishTime>
     </File>
     <File Include="bin/SecSisBoletas.dll">
-      <publishTime>07/02/2020 15:32:12</publishTime>
+      <publishTime>07/29/2020 17:33:26</publishTime>
     </File>
     <File Include="bin/SecSisBoletas.pdb">
-      <publishTime>07/02/2020 15:32:12</publishTime>
+      <publishTime>07/29/2020 17:33:26</publishTime>
     </File>
     <File Include="bin/SqlServerTypes/x64/msvcr120.dll">
       <publishTime>03/28/2019 18:05:18</publishTime>
@@ -3922,7 +3922,7 @@ edite el archivo MSBuild. Visite https://go.microsoft.com/fwlink/?LinkID=208121 
       <publishTime>03/28/2019 18:05:18</publishTime>
     </File>
     <File Include="bin/stdole.dll">
-      <publishTime>06/01/2020 18:04:34</publishTime>
+      <publishTime>11/05/2019 16:40:23</publishTime>
     </File>
     <File Include="bin/System.Diagnostics.DiagnosticSource.dll">
       <publishTime>07/19/2017 10:01:30</publishTime>
@@ -3952,13 +3952,13 @@ edite el archivo MSBuild. Visite https://go.microsoft.com/fwlink/?LinkID=208121 
       <publishTime>02/01/2018 12:20:56</publishTime>
     </File>
     <File Include="bin/VSLangProj.dll">
-      <publishTime>02/11/2018 18:07:07</publishTime>
+      <publishTime>11/05/2019 16:40:23</publishTime>
     </File>
     <File Include="bin/VSLangProj2.dll">
-      <publishTime>02/11/2018 18:07:07</publishTime>
+      <publishTime>11/05/2019 16:40:23</publishTime>
     </File>
     <File Include="bin/VSLangProj80.dll">
-      <publishTime>02/11/2018 18:07:07</publishTime>
+      <publishTime>11/05/2019 16:40:23</publishTime>
     </File>
     <File Include="bin/WebGrease.dll">
       <publishTime>01/23/2014 13:57:34</publishTime>
@@ -4573,7 +4573,7 @@ edite el archivo MSBuild. Visite https://go.microsoft.com/fwlink/?LinkID=208121 
       <publishTime>03/19/2019 17:47:16</publishTime>
     </File>
     <File Include="Web.config">
-      <publishTime>06/11/2020 16:47:26</publishTime>
+      <publishTime>07/29/2020 17:33:27</publishTime>
     </File>
   </ItemGroup>
 </Project>
