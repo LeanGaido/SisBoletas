@@ -5,3 +5,4 @@
 /.vs/SecSisBoletas/v16/Server/sqlite3
 /Services/obj/Release/netstandard2.0
 /Services/obj/Debug/netstandard2.0
+/SecSisBoletas/obj/Release/SecSisBoletas.csproj.CoreCompileInputs.cache
