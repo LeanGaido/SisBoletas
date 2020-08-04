@@ -280,7 +280,7 @@ namespace SecSisBoletas.Areas.Administrador.Controllers
             return View(boletaAportes);
         }
 
-        [Authorize(Roles = "Admin, Fiscalizacion")]
+        [Authorize(Roles = "Admin, Fiscalizacion, Finanzas")]
         // GET: Administrador/Listados/EditBoletaAportes/5
         public ActionResult EditBoletaAportes(int? id)
         {
@@ -386,7 +386,7 @@ namespace SecSisBoletas.Areas.Administrador.Controllers
             return View(boletaAportes);
         }
 
-        [Authorize(Roles = "Admin, Fiscalizacion")]
+        [Authorize(Roles = "Admin, Fiscalizacion, Finanzas")]
         // POST: Administrador/Listados/EditBoletaAportes/5
         // Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que desea enlazarse. Para obtener 
         // más información vea https://go.microsoft.com/fwlink/?LinkId=317598.
@@ -429,7 +429,7 @@ namespace SecSisBoletas.Areas.Administrador.Controllers
             return View(boletaAportes);
         }
 
-        [Authorize(Roles = "Admin, Fiscalizacion")]
+        [Authorize(Roles = "Admin, Fiscalizacion, Finanzas")]
         // GET: Administrador/Listados/PagarBoletaAportes/5
         public ActionResult PagarBoletaAportes(int? id)
         {
@@ -449,7 +449,7 @@ namespace SecSisBoletas.Areas.Administrador.Controllers
             return View(boletaAportes);
         }
 
-        [Authorize(Roles = "Admin, Fiscalizacion")]
+        [Authorize(Roles = "Admin, Fiscalizacion, Finanzas")]
         // POST: Administrador/Listados/PagarBoletaAportes/5
         [HttpPost, ActionName("PagarBoletaAportes")]
         [ValidateAntiForgeryToken]
@@ -467,7 +467,7 @@ namespace SecSisBoletas.Areas.Administrador.Controllers
             return RedirectToAction("IndexBoletaAportes", new { mes = boletaAportes.MesBoleta, anio = boletaAportes.AnioBoleta });
         }
 
-        [Authorize(Roles = "Admin, Fiscalizacion")]
+        [Authorize(Roles = "Admin, Fiscalizacion, Finanzas")]
         // GET: Administrador/Listados/PagarBoletaAportes/5
         public ActionResult AnularPagoBoletaAportes(int? id)
         {
@@ -483,7 +483,7 @@ namespace SecSisBoletas.Areas.Administrador.Controllers
             return View(boletaAportes);
         }
 
-        [Authorize(Roles = "Admin, Fiscalizacion")]
+        [Authorize(Roles = "Admin, Fiscalizacion, Finanzas")]
         // POST: Administrador/Listados/PagarBoletaAportes/5
         [HttpPost, ActionName("AnularPagoBoletaAportes")]
         [ValidateAntiForgeryToken]

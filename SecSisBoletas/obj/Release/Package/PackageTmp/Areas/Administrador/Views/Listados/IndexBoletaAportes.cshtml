@@ -139,7 +139,7 @@
                 }
             </td>
             <td>
-                @if (User.IsInRole("Admin") || User.IsInRole("Fiscalizacion"))
+                @if (User.IsInRole("Admin") || User.IsInRole("Fiscalizacion") || User.IsInRole("Finanzas"))
                 {
                     if (!item.BoletaPagada)
                     {
