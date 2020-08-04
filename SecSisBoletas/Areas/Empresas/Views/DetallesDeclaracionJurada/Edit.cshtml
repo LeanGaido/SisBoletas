@@ -66,7 +66,7 @@
         
         <div class="form-group">
             <div class="col-md-1">
-                @Html.Label("Sueldo 2%", htmlAttributes: new { @class = "control -label col-md-2" })
+                @Html.Label("Sueldo", htmlAttributes: new { @class = "control -label col-md-2" })
             </div>
             <div class="col-md-6">
                 <input type="text" name="Sueldo" id="Sueldo" value="@Model.Sueldo" class="form-control" />
@@ -75,13 +75,15 @@
         </div>
 
         <div class="form-group">
-            @Html.Label("Sueldo 5%", htmlAttributes: new { @class = "control -label col-md-2" })
+            @Html.LabelFor(model => model.Presentismo, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-4">
-                <input type="text" name="SueldoBase" id="SueldoBase" value="@Model.SueldoBase" class="form-control" />
-                @Html.ValidationMessage("SueldoBase", "", new { @class = "text-danger" })
-            </div>
-            <div class="col-xs-12 col-md-4">
-                <span class="text text-danger">Cargar solo para Empleados Afiliados al Sindicato de empleados de Comercio</span>
+                <select class="selectpicker" data-live-search="true" name="Presentismo" id="Presentismo">
+                    @for (int i = 0; i < 101; i++)
+                    {
+                        <option value="@i">@i%</option>
+                    }
+                </select>
+                @Html.ValidationMessageFor(model => model.Presentismo, "", new { @class = "text-danger" })
             </div>
         </div>
 

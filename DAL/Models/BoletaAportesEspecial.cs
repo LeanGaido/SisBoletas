@@ -78,11 +78,11 @@ namespace DAL.Models
 
         [Required]
         [DataType(DataType.Currency)]
-        public decimal TotalSueldos2 { get; set; }
+        public decimal TotalSueldos { get; set; }
 
         [Required]
         [DataType(DataType.Currency)]
-        public decimal Aportes2 { get; set; }
+        public decimal Aportes { get; set; }
         #endregion
 
         #region Afiliados y Sueldos
@@ -91,11 +91,11 @@ namespace DAL.Models
 
         [Required]
         [DataType(DataType.Currency)]
-        public decimal TotalSueldos5 { get; set; }
+        public decimal TotalSueldosAfiliados { get; set; }
 
         [Required]
         [DataType(DataType.Currency)]
-        public decimal Aportes5 { get; set; }
+        public decimal AportesAfiliados { get; set; }
         #endregion
 
         #region Mora y Totales

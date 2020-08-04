@@ -17,10 +17,10 @@ namespace DAL.ViewModels
         public string Periodo { get; set; }
         public string CantEmpleados { get; set; }
         public string TotalSueldos { get; set; }
-        public string DosPorc { get; set; }
+        public string Aportes { get; set; }
         public string CantAfiliados { get; set; }
         public string TotalSueldosAfiliados { get; set; }
-        public string CincoPorc { get; set; }
+        public string AportesAfiliados { get; set; }
         public string CantFamiliaresACargo { get; set; }
         public string UnPorcFamiliaresACargo { get; set; }
         public string FechaVencimiento { get; set; }

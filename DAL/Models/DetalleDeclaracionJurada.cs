@@ -38,13 +38,17 @@ namespace DAL.Models
         [NotMapped]
         public int? IdLiquidacionProporcional { get; set; }
 
-        //Sueldo 2%
+        //Sueldo
         [Required, DataType(DataType.Currency)]
         public decimal Sueldo { get; set; }
 
-        //Sueldo 5%
+        //Sueldo
+        [DataType(DataType.Currency)]
+        public decimal? SueldoBase { get; set; } = 0;
+
+        //Porcentaje Presentismo
         [Required, DataType(DataType.Currency)]
-        public decimal SueldoBase { get; set; }
+        public decimal Presentismo { get; set; } = 0;
 
         public virtual DeclaracionJurada DeclaracionJurada { get; set; }
         public virtual EmpleadoEmpresa EmpleadoEmpresa { get; set; }

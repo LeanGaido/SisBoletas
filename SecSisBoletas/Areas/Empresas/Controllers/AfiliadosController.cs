@@ -363,9 +363,11 @@ namespace SecSisBoletas.Areas.Empresas.Controllers
 
             EmpleadoEmpresa empEmp = db.EmpleadoEmpresa.Where(x => x.idEmpleadoEmpresa == afiliado.IdEmpleadoEmpresa).FirstOrDefault();
 
-            if (empEmp != null) empEmp.EsAfiliado = false;
+            if (empEmp != null)
+            {
+                empEmp.EsAfiliado = false;
+            }
 
-            //db.Afiliado.Remove(afiliado);
             db.SaveChanges();
             return RedirectToAction("Index");
         }

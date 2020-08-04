@@ -41,8 +41,9 @@ namespace DAL.Models
         [Required, DataType(DataType.EmailAddress)]
         public string Email { get; set; }
 
-        [Required, Display(Name = "Actividad")]
-        [ForeignKey("Actividad")]
+        //Required
+        [Display(Name = "Actividad")]
+        //[ForeignKey("Actividad")]
         public int IdActividad { get; set; }
 
         [Required, Display(Name = "Fecha de Alta")]
@@ -56,7 +57,7 @@ namespace DAL.Models
         public DateTime? FechaBajaEmpresa { get; set; }
 
         public virtual Localidad Localidad { get; set; }
-        public virtual Actividad Actividad { get; set; }
+        //public virtual Actividad Actividad { get; set; }
 
 
         public virtual ICollection<EmpleadoEmpresa> Empleados { get; set; }

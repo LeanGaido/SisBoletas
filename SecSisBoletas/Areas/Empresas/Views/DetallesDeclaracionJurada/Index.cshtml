@@ -60,21 +60,31 @@
         </div>
 
         <div class="form-group">
-            @Html.Label("Sueldo 2%", htmlAttributes: new { @class = "control -label col-md-2" })
+            @Html.Label("Sueldo", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-4">
                 @Html.Editor("Sueldo", new { htmlAttributes = new { @class = "form-control", required = "true" } })
                 @Html.ValidationMessage("Sueldo", "", new { @class = "text-danger" })
             </div>
         </div>
 
-        <div class="form-group">
-            @Html.Label("Sueldo 5%", htmlAttributes: new { @class = "control -label col-md-2" })
+        <div class="form-group" id="SueldoBase">
+            @Html.Label("Sueldo Base", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-4">
                 @Html.Editor("SueldoBase", new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessage("SueldoBase", "", new { @class = "text-danger" })
             </div>
-            <div class="col-xs-12 col-md-4">
-                <span class="text text-danger">Cargar solo para Empleados Afiliados al Sindicato de empleados de Comercio</span>
+        </div>
+
+        <div class="form-group">
+            @Html.Label("Presentismo", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-4">
+                <select class="selectpicker" data-live-search="true" name="Presentismo" id="Presentismo">
+                    @for (int i = 0; i < 101; i++)
+                    {
+                        <option value="@i">@i%</option>
+                    }
+                </select>
+                @Html.ValidationMessage("Presentismo", "", new { @class = "text-danger" })
             </div>
         </div>
 
@@ -109,10 +119,10 @@
             ¿Liquidacion Proporcional?
         </th>
         <th>
-            @Html.DisplayName("Sueldo 2%")
+            @Html.DisplayName("Sueldo")
         </th>
         <th>
-            @Html.DisplayName("Sueldo 5%")
+            @Html.DisplayName("Sueldo Base")
         </th>
         <th></th>
     </tr>
@@ -215,6 +225,14 @@
 <script type="text/javascript">
     $(document).ready(function () {
         CargarCategoriaJornada();
+
+        var Jornada = $('#idJornadaLaboral').val();
+
+        if (Jornada == 1 || Jornada == 2) {
+            $('#SueldoBase').show();
+        } else {
+            $('#SueldoBase').hide();
+        }
     });
 
     $('#btnSubmit').click(function (e) {
@@ -224,6 +242,14 @@
 
     $("#IdEmpleadoEmpresa").change(function () {
         CargarCategoriaJornada();
+
+        var Jornada = $('#idJornadaLaboral').val();
+
+        if (Jornada == 1 || Jornada == 2) {
+            $('#SueldoBase').show();
+        } else {
+            $('#SueldoBase').hide();
+        }
     });
 
     $('#IdLiquidacionProporcional').change(function () {
@@ -300,31 +326,37 @@
     };
 
     function GetSueldoBase() {
-        $('#SueldoBase').val('');
-        $.ajax({
-            type: "GET",
-            url: '@Url.Action("GetSueldoBase", "Empleados")',
-            data: {
-                IdEmpleadoEmpresa: $("#IdEmpleadoEmpresa").val(),
-                IdDeclaracionJurada: $('#IdDeclaracionJurada').val()
-            },
-            dataType: 'json',
-            success: function (data) {
-                if (data == -1) {
-                    alert("No hay Sueldo Minimo Registrado para la Fecha que quiere Declarar");
+        var Jornada = $('#idJornadaLaboral').val();
+
+        if (Jornada == 1 || Jornada == 2) {
+            $('#SueldoBase').val('');
+            $.ajax({
+                type: "GET",
+                url: '@Url.Action("GetSueldoBase", "Empleados")',
+                data: {
+                    IdEmpleadoEmpresa: $("#IdEmpleadoEmpresa").val(),
+                    IdDeclaracionJurada: $('#IdDeclaracionJurada').val()
+                },
+                dataType: 'json',
+                success: function (data) {
+                    if (data == -1) {
+                        alert("No hay Sueldo Minimo Registrado para la Fecha que quiere Declarar");
+                    }
+                    else {
+                        var sueldo = data.toString();
+                        sueldo = sueldo.replace('.', ',');
+                        $('#SueldoBase').val(sueldo);
+                    }
+                },
+                error: function () {
                 }
-                else {
-                    var sueldo = data.toString();
-                    sueldo = sueldo.replace('.', ',');
-                    $('#SueldoBase').val(sueldo);
-                }
-            },
-            error: function () {
-            }
-        });
+            });
+        }
+        
     };
 
     function GetSueldoBasico() {
+
         $('#Sueldo').val('');
         $.ajax({
             type: "GET",

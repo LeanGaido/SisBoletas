@@ -111,12 +111,13 @@ namespace SecSisBoletas.Models
 
         public string TelefonoCelular { get; set; }
 
-        [Required, Display(Name = "Actividad")]
-        [ForeignKey("Actividad")]
+        //Required
+        [Display(Name = "Actividad")]
+        //[ForeignKey("Actividad")]
         public int IdActividad { get; set; }
 
         public virtual Localidad Localidad { get; set; }
-        public virtual Actividad Actividad { get; set; }
+        //public virtual Actividad Actividad { get; set; }
     }
 
     public class ResetPasswordViewModel

@@ -55,7 +55,7 @@
                             <span class="text text-danger">@Html.ValidationMessageFor(model => model.Cuit)</span>
                         </div>
                         <div class="col-xs-6">
-                            @Html.DropDownListFor(model => model.IdActividad, null, new { @class = "form-control", required = "true" })
+                            @Html.DropDownListFor(model => model.IdActividad, null, new { @class = "form-control" })
                             <span class="text text-danger">@Html.ValidationMessageFor(model => model.IdActividad)</span>
                         </div>
                     </div>

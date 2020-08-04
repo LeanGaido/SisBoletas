@@ -110,7 +110,7 @@ namespace SecSisBoletas.Areas.Empresas.Controllers
                     {
                         if (afiliado.FechaBaja == null || afiliado.FechaBaja.Value.Year > detalle.DeclaracionJurada.anio || (afiliado.FechaBaja.Value.Year == detalle.DeclaracionJurada.anio && afiliado.FechaBaja.Value.Month >= detalle.DeclaracionJurada.mes))
                         {
-                            sueldos5 += detalle.SueldoBase;
+                            sueldos5 += detalle.SueldoBase.Value;
                             detalle.EsAfiliado = true;
                         }
                     }
@@ -118,7 +118,7 @@ namespace SecSisBoletas.Areas.Empresas.Controllers
                     {
                         if (afiliado.FechaBaja == null || afiliado.FechaBaja.Value.Year > detalle.DeclaracionJurada.anio || (afiliado.FechaBaja.Value.Year == detalle.DeclaracionJurada.anio && afiliado.FechaBaja.Value.Month >= detalle.DeclaracionJurada.mes))
                         {
-                            sueldos5 += detalle.SueldoBase;
+                            sueldos5 += detalle.SueldoBase.Value;
                             detalle.EsAfiliado = true;
                         }
                     }
@@ -362,24 +362,25 @@ namespace SecSisBoletas.Areas.Empresas.Controllers
         // más información vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "IdDetalleDeclaracionJurada,IdDeclaracionJurada,IdEmpleadoEmpresa,idCategoria,idJornadaLaboral,IdLiquidacionProporcional,Sueldo,SueldoBase")] DetalleDeclaracionJurada detalleDeclaracionJurada)
+        public ActionResult Create([Bind(Include = "IdDetalleDeclaracionJurada,IdDeclaracionJurada,IdEmpleadoEmpresa,idCategoria,idJornadaLaboral,IdLiquidacionProporcional,Sueldo,SueldoBase,Presentismo")] DetalleDeclaracionJurada detalleDeclaracionJurada)
         {
             var boleta = db.BoletaAportes.Where(x => x.IdDeclaracionJurada == detalleDeclaracionJurada.IdDeclaracionJurada && x.BoletaPagada == true && x.DeBaja == false).FirstOrDefault();
-            if (boleta != null)
+            if (boleta != null)//Si ya hay una boleta de aportes de alta relacionada a esta declaracion Jurada, no puede declarar mas empleados
             {
                 return RedirectToAction("CantCreateMessage", "DetallesDeclaracionJurada", new { idDeclaracionJurada = detalleDeclaracionJurada.IdDeclaracionJurada });
             }
+
             var claim = ((ClaimsIdentity)User.Identity).FindFirst("IdEmpresa");
             int IdEmpresa = Convert.ToInt32(claim.Value);
             var declaracionJuradaAux = db.DeclaracionJurada.Find(detalleDeclaracionJurada.IdDeclaracionJurada);
-
+            
             ViewBag.idDeclaracion = detalleDeclaracionJurada.IdDeclaracionJurada;
             ViewBag.idCategoria = new SelectList(db.Categoria, "IdCategoria", "Descripcion", detalleDeclaracionJurada.idCategoria);
             ViewBag.IdDeclaracionJurada = new SelectList(db.DeclaracionJurada, "IdDeclaracionJurada", "IdDeclaracionJurada", detalleDeclaracionJurada.IdDeclaracionJurada);
-            var EmpleadosEmpresa = db.EmpleadoEmpresa.Where(x => x.idEmpresa == IdEmpresa).ToList();
 
+            var EmpleadosEmpresa = db.EmpleadoEmpresa.Where(x => x.idEmpresa == IdEmpresa).ToList();
             List<EmpleadoEmpresa> listaEmpleadosEmpresa = new List<EmpleadoEmpresa>();
-            foreach (var EmpleadoEmpresa in EmpleadosEmpresa)
+            foreach (var EmpleadoEmpresa in EmpleadosEmpresa)//Obtengo empleados activos al momento de realizar la declaracion Jurada
             {
                 if (EmpleadoEmpresa.FechaBaja == null)
                 {
@@ -406,7 +407,7 @@ namespace SecSisBoletas.Areas.Empresas.Controllers
 
             List<EmpleadoEmpresa> empleadosRestantes = new List<EmpleadoEmpresa>();
 
-            foreach (var emp in listaEmpleadosEmpresa)
+            foreach (var emp in listaEmpleadosEmpresa)//Obtengo empleados activos al momento de realizar la declaracion Jurada que aun no estan declarados
             {
                 if (db.DetalleDeclaracionJurada.Where(x => x.IdDeclaracionJurada == declaracionJuradaAux.IdDeclaracionJurada && x.IdEmpleadoEmpresa == emp.idEmpleadoEmpresa).FirstOrDefault() == null)
                 {
@@ -420,114 +421,126 @@ namespace SecSisBoletas.Areas.Empresas.Controllers
 
             TempData["MensajeError"] = "";
 
-            if (db.BoletaAportes.Where(x => x.IdDeclaracionJurada == detalleDeclaracionJurada.IdDeclaracionJurada && x.BoletaPagada).FirstOrDefault() != null)
-            {
-                TempData["MensajeError"] = "No Puede Declarar Empleados en una declaracion que ya tiene una boleta generada y pagada.";
-                return RedirectToAction("Index", "DetallesDeclaracionJurada", new { id = detalleDeclaracionJurada.IdDeclaracionJurada, idEmpleadoEmpresa = detalleDeclaracionJurada.IdEmpleadoEmpresa });
-            }
-
             if (ModelState.IsValid)
             {
-                DeclaracionJurada declaracionJurada = db.DeclaracionJurada.Find(detalleDeclaracionJurada.IdDeclaracionJurada);
-                if (db.DetalleDeclaracionJurada.Where(x => x.IdDeclaracionJurada == detalleDeclaracionJurada.IdDeclaracionJurada &&
-                                                        x.IdEmpleadoEmpresa == detalleDeclaracionJurada.IdEmpleadoEmpresa).FirstOrDefault() == null)
+                if (!detalleDeclaracionJurada.SueldoBase.HasValue)
                 {
+                    detalleDeclaracionJurada.SueldoBase = 0;
+                }
 
-                    if (detalleDeclaracionJurada.IdLiquidacionProporcional != 1)
-                    {
-                        LiquidacionProporcionalEmpleado liquidacionProporcional = new LiquidacionProporcionalEmpleado();
+                if (detalleDeclaracionJurada.IdLiquidacionProporcional != 1)//Si el IdLiquidacionProporcional es distinto a 1, significa que tiene una liquidacion proporcional y el sueldo puede ser menor que el minimo
+                {
+                    LiquidacionProporcionalEmpleado liquidacionProporcional = new LiquidacionProporcionalEmpleado();
 
-                        liquidacionProporcional.IdLiquidacionProporcional = (int)detalleDeclaracionJurada.IdLiquidacionProporcional;
-                        liquidacionProporcional.IdDetalleDeclaracionJurada = detalleDeclaracionJurada.IdDetalleDeclaracionJurada;
+                    liquidacionProporcional.IdLiquidacionProporcional = (int)detalleDeclaracionJurada.IdLiquidacionProporcional;
+                    liquidacionProporcional.IdDetalleDeclaracionJurada = detalleDeclaracionJurada.IdDetalleDeclaracionJurada;
 
-                        db.LiquidacionProporcionalEmpleado.Add(liquidacionProporcional);
+                    db.LiquidacionProporcionalEmpleado.Add(liquidacionProporcional);
 
-                        db.DetalleDeclaracionJurada.Add(detalleDeclaracionJurada);
-                        db.SaveChanges();
-
-                        return RedirectToAction("CreateMessage", "DetallesDeclaracionJurada", new { idDeclaracionJurada = detalleDeclaracionJurada.IdDeclaracionJurada });
-                    }
-                    var empEmp = empleadosRestantes.Where(x => x.idEmpleadoEmpresa == detalleDeclaracionJurada.IdEmpleadoEmpresa).FirstOrDefault();
-                    DateTime fechaSueldo = new DateTime(declaracionJurada.anio, declaracionJurada.mes, DateTime.Today.Day);
-                    var sueldosBasicos = db.SueldoBasico.Where(x => x.IdCategoria == empEmp.IdCategoria &&
-                                                                    x.Desde <= fechaSueldo &&
-                                                                    x.Hasta >= fechaSueldo).ToList();
-                    if (sueldosBasicos != null && sueldosBasicos.Count > 0)
-                    {
-                        if (!ddjj.comprobarSueldoBasico(detalleDeclaracionJurada.IdEmpleadoEmpresa, declaracionJurada.IdDeclaracionJurada, detalleDeclaracionJurada.Sueldo))
-                        {
-                            TempData["MensajeError"] = "El Sueldo ingresado es menor que el minimo.";
-                            ModelState.AddModelError("Sueldo", "El Sueldo ingresado es menor que el minimo.");
-                            return RedirectToAction("Index", "DetallesDeclaracionJurada", new { id = detalleDeclaracionJurada.IdDeclaracionJurada, idEmpleadoEmpresa = detalleDeclaracionJurada.IdEmpleadoEmpresa });
-                        }
-                        var afiliado = db.Afiliado.Where(x => x.IdEmpleadoEmpresa == empEmp.idEmpleadoEmpresa).FirstOrDefault();
-                        if (afiliado != null)
-                        {
-                            if (afiliado.FechaAlta.Year < declaracionJurada.anio)
-                            {
-                                if (afiliado.FechaBaja == null || afiliado.FechaBaja.Value.Year > declaracionJurada.anio || (afiliado.FechaBaja.Value.Year == declaracionJurada.anio && afiliado.FechaBaja.Value.Month >= declaracionJurada.mes))
-                                {
-                                    if (!ddjj.comprobarSueldoBase(detalleDeclaracionJurada.IdEmpleadoEmpresa, declaracionJurada.IdDeclaracionJurada, detalleDeclaracionJurada.SueldoBase))
-                                    {
-                                        TempData["MensajeError"] = "El Sueldo 5% ingresado es menor que el minimo.";
-                                        ModelState.AddModelError("SueldoBase", "El Sueldo 5% ingresado es menor que el minimo.");
-                                        return RedirectToAction("Index", "DetallesDeclaracionJurada", new { id = detalleDeclaracionJurada.IdDeclaracionJurada, idEmpleadoEmpresa = detalleDeclaracionJurada.IdEmpleadoEmpresa });
-                                    }
-
-                                    if(detalleDeclaracionJurada.SueldoBase < detalleDeclaracionJurada.Sueldo)
-                                    {
-                                        TempData["MensajeError"] = "El Sueldo 5% no puede ser menor que el sueldo 2% ingresado.";
-                                        ModelState.AddModelError("SueldoBase", "El Sueldo 5% no puede ser menor que el sueldo 2% ingresado.");
-                                        return RedirectToAction("Index", "DetallesDeclaracionJurada", new { id = detalleDeclaracionJurada.IdDeclaracionJurada, idEmpleadoEmpresa = detalleDeclaracionJurada.IdEmpleadoEmpresa });
-                                    }
-                                }
-                            }
-                            else if (afiliado.FechaAlta.Year == declaracionJurada.anio && afiliado.FechaAlta.Month <= declaracionJurada.mes)
-                            {
-                                if (afiliado.FechaBaja == null || afiliado.FechaBaja.Value.Year > declaracionJurada.anio || (afiliado.FechaBaja.Value.Year == declaracionJurada.anio && afiliado.FechaBaja.Value.Month >= declaracionJurada.mes))
-                                {
-                                    if (!ddjj.comprobarSueldoBase(detalleDeclaracionJurada.IdEmpleadoEmpresa, declaracionJurada.IdDeclaracionJurada, detalleDeclaracionJurada.SueldoBase))
-                                    {
-                                        TempData["MensajeError"] = "El Sueldo 5% ingresado es menor que el minimo.";
-                                        ModelState.AddModelError("SueldoBase", "El Sueldo 5% ingresado es menor que el minimo.");
-                                        return RedirectToAction("Index", "DetallesDeclaracionJurada", new { id = detalleDeclaracionJurada.IdDeclaracionJurada, idEmpleadoEmpresa = detalleDeclaracionJurada.IdEmpleadoEmpresa });
-                                    }
-
-                                    if (detalleDeclaracionJurada.SueldoBase < detalleDeclaracionJurada.Sueldo)
-                                    {
-                                        TempData["MensajeError"] = "El Sueldo 5% no puede ser menor que el sueldo 2% ingresado.";
-                                        ModelState.AddModelError("SueldoBase", "El Sueldo 5% no puede ser menor que el sueldo 2% ingresado.");
-                                        return RedirectToAction("Index", "DetallesDeclaracionJurada", new { id = detalleDeclaracionJurada.IdDeclaracionJurada, idEmpleadoEmpresa = detalleDeclaracionJurada.IdEmpleadoEmpresa });
-                                    }
-                                }
-                            }
-                        }
-                    }
-                    else
-                    {
-                        TempData["MensajeError"] = "No Hay Sueldos Basicos Cargados Para Esta Fecha.";
-                        return RedirectToAction("Index", "DetallesDeclaracionJurada", new { id = detalleDeclaracionJurada.IdDeclaracionJurada, idEmpleadoEmpresa = detalleDeclaracionJurada.IdEmpleadoEmpresa });
-                    }
-
-                    ViewBag.idDeclaracion = detalleDeclaracionJurada.IdDeclaracionJurada;
                     db.DetalleDeclaracionJurada.Add(detalleDeclaracionJurada);
                     db.SaveChanges();
 
-                    return RedirectToAction("CreateMessage", "DetallesDeclaracionJurada", new { idDeclaracionJurada = detalleDeclaracionJurada.IdDeclaracionJurada, idEmpleadoEmpresa = detalleDeclaracionJurada.IdEmpleadoEmpresa });
+                    return RedirectToAction("CreateMessage", "DetallesDeclaracionJurada", new { idDeclaracionJurada = detalleDeclaracionJurada.IdDeclaracionJurada });
+                }
+
+                //Datos del empleado en la empresa
+                var empEmp = empleadosRestantes.Where(x => x.idEmpleadoEmpresa == detalleDeclaracionJurada.IdEmpleadoEmpresa).FirstOrDefault();
+
+                //Fecha de la declaracion Jurada*
+                DateTime fechaSueldo = new DateTime(declaracionJuradaAux.anio, declaracionJuradaAux.mes, DateTime.Today.Day);
+
+                //Sueldo Basico para la categoria del empleado a declarar en la fecha de la declaracion jurada
+                var sueldosBasicos = db.SueldoBasico.Where(x => x.IdCategoria == empEmp.IdCategoria &&
+                                                                x.Desde <= fechaSueldo &&
+                                                                x.Hasta >= fechaSueldo).ToList();
+
+                
+                if (sueldosBasicos != null && sueldosBasicos.Count > 0)
+                {
+                    //Si hay un sueldo basico para la Fecha de la declaracion Jurada
+
+                    //Compruebo si el sueldo es mayor o menor del basico --True = Mayor al basico --False = Menor al basico
+                    if (!ddjj.comprobarSueldoBasico(detalleDeclaracionJurada.IdEmpleadoEmpresa, declaracionJuradaAux.IdDeclaracionJurada, detalleDeclaracionJurada.Sueldo))
+                    {
+                        TempData["MensajeError"] = "El Sueldo ingresado es menor que el minimo.";
+                        ModelState.AddModelError("Sueldo", "El Sueldo ingresado es menor que el minimo.");
+                        return RedirectToAction("Index", "DetallesDeclaracionJurada", new { id = detalleDeclaracionJurada.IdDeclaracionJurada, idEmpleadoEmpresa = detalleDeclaracionJurada.IdEmpleadoEmpresa });
+                    }
+
+
+                    #region Afiliado
+                    var afiliado = db.Afiliado.Where(x => x.IdEmpleadoEmpresa == empEmp.idEmpleadoEmpresa).FirstOrDefault();
+                    if (afiliado != null)//compruebo que exista un registro de afiliado para este empleado
+                    {
+                        if (afiliado.FechaAlta.Year < declaracionJuradaAux.anio)
+                        {
+                            //si el año de alta del afiliado es menor al de la declaracion jurada
+                            //compruebo que no tenga fecha de baja o si tiene que sea posterior a la fecha de la boleta
+                            if (afiliado.FechaBaja == null || afiliado.FechaBaja.Value.Year > declaracionJuradaAux.anio || (afiliado.FechaBaja.Value.Year == declaracionJuradaAux.anio && afiliado.FechaBaja.Value.Month >= declaracionJuradaAux.mes))
+                            {
+                                if(empEmp.IdJornada == 1 || empEmp.IdJornada == 2)//Si trabaja  a media Jornada o a Jornada por Horas compruebo el sueldo base
+                                {
+                                    //checkeo si el sueldo base ingresado es mayor al sueldo minimo para la categoria del empleado
+                                    if (!ddjj.comprobarSueldoBase(detalleDeclaracionJurada.IdEmpleadoEmpresa, declaracionJuradaAux.IdDeclaracionJurada, detalleDeclaracionJurada.SueldoBase.Value))
+                                    {
+                                        TempData["MensajeError"] = "El Sueldo Base ingresado es menor que el minimo.";
+                                        ModelState.AddModelError("SueldoBase", "El Sueldo Base ingresado es menor que el minimo.");
+                                        return RedirectToAction("Index", "DetallesDeclaracionJurada", new { id = detalleDeclaracionJurada.IdDeclaracionJurada, idEmpleadoEmpresa = detalleDeclaracionJurada.IdEmpleadoEmpresa });
+                                    }
+
+                                    //checkeo si el sueldo base ingresado es mayor al sueldo ingresado para el empleado
+                                    if (detalleDeclaracionJurada.SueldoBase < detalleDeclaracionJurada.Sueldo)
+                                    {
+                                        TempData["MensajeError"] = "El Sueldo Base no puede ser menor que el sueldo ingresado.";
+                                        ModelState.AddModelError("SueldoBase", "El Sueldo Base no puede ser menor que el sueldo ingresado.");
+                                        return RedirectToAction("Index", "DetallesDeclaracionJurada", new { id = detalleDeclaracionJurada.IdDeclaracionJurada, idEmpleadoEmpresa = detalleDeclaracionJurada.IdEmpleadoEmpresa });
+                                    }
+                                }
+                            }
+                        }
+                        else if (afiliado.FechaAlta.Year == declaracionJuradaAux.anio && afiliado.FechaAlta.Month <= declaracionJuradaAux.mes)
+                        {
+                            //si el año de alta del afiliado es menorigual al de la declaracion jurada, compruebo que el mes sea menor al mes declarado
+                            //y compruebo que no tenga fecha de baja o si tiene que sea posterior a la fecha de la boleta
+                            if (afiliado.FechaBaja == null || afiliado.FechaBaja.Value.Year > declaracionJuradaAux.anio || (afiliado.FechaBaja.Value.Year == declaracionJuradaAux.anio && afiliado.FechaBaja.Value.Month >= declaracionJuradaAux.mes))
+                            {
+                                if(empEmp.IdJornada == 1 || empEmp.IdJornada == 2)//Si trabaja  a media Jornada o a Jornada por Horas compruebo el sueldo base
+                                {
+                                    //checkeo si el sueldo base ingresado es mayor al sueldo minimo para la categoria del empleado
+                                    if (!ddjj.comprobarSueldoBase(detalleDeclaracionJurada.IdEmpleadoEmpresa, declaracionJuradaAux.IdDeclaracionJurada, detalleDeclaracionJurada.SueldoBase.Value))
+                                    {
+                                        TempData["MensajeError"] = "El Sueldo Base ingresado es menor que el minimo.";
+                                        ModelState.AddModelError("SueldoBase", "El Sueldo Base ingresado es menor que el minimo.");
+                                        return RedirectToAction("Index", "DetallesDeclaracionJurada", new { id = detalleDeclaracionJurada.IdDeclaracionJurada, idEmpleadoEmpresa = detalleDeclaracionJurada.IdEmpleadoEmpresa });
+                                    }
+
+                                    //checkeo si el sueldo base ingresado es mayor al sueldo ingresado para el empleado
+                                    if (detalleDeclaracionJurada.SueldoBase < detalleDeclaracionJurada.Sueldo)
+                                    {
+                                        TempData["MensajeError"] = "El Sueldo Base no puede ser menor que el sueldo ingresado.";
+                                        ModelState.AddModelError("SueldoBase", "El Sueldo 5% no puede ser menor que el sueldo ingresado.");
+                                        return RedirectToAction("Index", "DetallesDeclaracionJurada", new { id = detalleDeclaracionJurada.IdDeclaracionJurada, idEmpleadoEmpresa = detalleDeclaracionJurada.IdEmpleadoEmpresa });
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    #endregion
                 }
                 else
                 {
-                    var empleado = (from oEmpleadoEmpresa in db.EmpleadoEmpresa
-                                    join oEmpleado in db.Empleado on oEmpleadoEmpresa.idEmpleado equals oEmpleado.IdEmpleado
-                                    where oEmpleadoEmpresa.idEmpresa == IdEmpresa &&
-                                          oEmpleadoEmpresa.idEmpleadoEmpresa == detalleDeclaracionJurada.IdEmpleadoEmpresa &&
-                                          oEmpleadoEmpresa.FechaBaja == null
-                                    select oEmpleadoEmpresa).ToList();
+                    //Si no hay un sueldo basico para la Fecha de la declaracion Jurada
 
-                    TempData["MensajeError"] = "El Empleado: " + empleado.First().Empleado.Nombre + " ya se encuentra declarado.";
-                    ModelState.AddModelError("IdEmpleadoEmpresa", "El Empleado: " + empleado.First().Empleado.Nombre + " ya se encuentra declarado.");
+                    TempData["MensajeError"] = "No Hay Sueldos Basicos Cargados Para Esta Fecha.";
                     return RedirectToAction("Index", "DetallesDeclaracionJurada", new { id = detalleDeclaracionJurada.IdDeclaracionJurada, idEmpleadoEmpresa = detalleDeclaracionJurada.IdEmpleadoEmpresa });
                 }
+
+                ViewBag.idDeclaracion = detalleDeclaracionJurada.IdDeclaracionJurada;
+                db.DetalleDeclaracionJurada.Add(detalleDeclaracionJurada);
+                db.SaveChanges();
+
+                return RedirectToAction("CreateMessage", "DetallesDeclaracionJurada", new { idDeclaracionJurada = detalleDeclaracionJurada.IdDeclaracionJurada, idEmpleadoEmpresa = detalleDeclaracionJurada.IdEmpleadoEmpresa });
+               
             }
 
             return RedirectToAction("Index", "DetallesDeclaracionJurada", new { id = detalleDeclaracionJurada.IdDeclaracionJurada, idEmpleadoEmpresa = detalleDeclaracionJurada.IdEmpleadoEmpresa });
@@ -585,7 +598,7 @@ namespace SecSisBoletas.Areas.Empresas.Controllers
         // más información vea https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "IdDetalleDeclaracionJurada,IdDeclaracionJurada,IdEmpleadoEmpresa,idCategoria,idJornadaLaboral,IdLiquidacionProporcional,Sueldo,SueldoBase")] DetalleDeclaracionJurada detalleDeclaracionJurada)
+        public ActionResult Edit([Bind(Include = "IdDetalleDeclaracionJurada,IdDeclaracionJurada,IdEmpleadoEmpresa,idCategoria,idJornadaLaboral,IdLiquidacionProporcional,Sueldo,SueldoBase,Presentismo")] DetalleDeclaracionJurada detalleDeclaracionJurada)
         {
             var boleta = db.BoletaAportes.Where(x => x.IdDeclaracionJurada == detalleDeclaracionJurada.IdDeclaracionJurada && x.BoletaPagada == true && x.DeBaja == false).FirstOrDefault();
             if(boleta != null)
@@ -645,36 +658,97 @@ namespace SecSisBoletas.Areas.Empresas.Controllers
                     return View(detalleDeclaracionJurada);
                 }
                 var empEmp = db.EmpleadoEmpresa.AsNoTracking().Where(x => x.idEmpleadoEmpresa == detalleDeclaracionJurada.IdEmpleadoEmpresa).FirstOrDefault();
+
+
+                #region Afiliado
                 var afiliado = db.Afiliado.Where(x => x.IdEmpleadoEmpresa == empEmp.idEmpleadoEmpresa).FirstOrDefault();
-                if (afiliado != null)
+                if (afiliado != null)//compruebo que exista un registro de afiliado para este empleado
                 {
                     if (afiliado.FechaAlta.Year < declaracionJurada.anio)
                     {
+                        //si el año de alta del afiliado es menor al de la declaracion jurada
+                        //compruebo que no tenga fecha de baja o si tiene que sea posterior a la fecha de la boleta
                         if (afiliado.FechaBaja == null || afiliado.FechaBaja.Value.Year > declaracionJurada.anio || (afiliado.FechaBaja.Value.Year == declaracionJurada.anio && afiliado.FechaBaja.Value.Month >= declaracionJurada.mes))
                         {
-                            if (detalleDeclaracionJurada.SueldoBase <= 0)
+                            if (empEmp.IdCategoria == 1 || empEmp.IdCategoria == 2)//Si trabaja  a media Jornada o a Jornada por Horas compruebo el sueldo base
                             {
-                                TempData["MensajeError"] = "El Sueldo 5% ingresado es menor que el minimo.";
-                                ModelState.AddModelError("SueldoBase", "El Sueldo ingresado tiene que ser mayor que 0.");
+                                //checkeo si el sueldo base ingresado es mayor al sueldo minimo para la categoria del empleado
+                                if (!ddjj.comprobarSueldoBase(detalleDeclaracionJurada.IdEmpleadoEmpresa, declaracionJurada.IdDeclaracionJurada, detalleDeclaracionJurada.SueldoBase.Value))
+                                {
+                                    TempData["MensajeError"] = "El Sueldo Base ingresado es menor que el minimo.";
+                                    ModelState.AddModelError("SueldoBase", "El Sueldo Base ingresado es menor que el minimo.");
+                                    return RedirectToAction("Index", "DetallesDeclaracionJurada", new { id = detalleDeclaracionJurada.IdDeclaracionJurada, idEmpleadoEmpresa = detalleDeclaracionJurada.IdEmpleadoEmpresa });
+                                }
 
-                                return View(detalleDeclaracionJurada);
+                                //checkeo si el sueldo base ingresado es mayor al sueldo ingresado para el empleado
+                                if (detalleDeclaracionJurada.SueldoBase < detalleDeclaracionJurada.Sueldo)
+                                {
+                                    TempData["MensajeError"] = "El Sueldo Base no puede ser menor que el sueldo ingresado.";
+                                    ModelState.AddModelError("SueldoBase", "El Sueldo Base no puede ser menor que el sueldo ingresado.");
+                                    return RedirectToAction("Index", "DetallesDeclaracionJurada", new { id = detalleDeclaracionJurada.IdDeclaracionJurada, idEmpleadoEmpresa = detalleDeclaracionJurada.IdEmpleadoEmpresa });
+                                }
                             }
                         }
                     }
                     else if (afiliado.FechaAlta.Year == declaracionJurada.anio && afiliado.FechaAlta.Month <= declaracionJurada.mes)
                     {
+                        //si el año de alta del afiliado es menorigual al de la declaracion jurada, compruebo que el mes sea menor al mes declarado
+                        //y compruebo que no tenga fecha de baja o si tiene que sea posterior a la fecha de la boleta
                         if (afiliado.FechaBaja == null || afiliado.FechaBaja.Value.Year > declaracionJurada.anio || (afiliado.FechaBaja.Value.Year == declaracionJurada.anio && afiliado.FechaBaja.Value.Month >= declaracionJurada.mes))
                         {
-                            if (detalleDeclaracionJurada.SueldoBase <= 0)
+                            if (empEmp.IdCategoria == 1 || empEmp.IdCategoria == 2)//Si trabaja  a media Jornada o a Jornada por Horas compruebo el sueldo base
                             {
-                                TempData["MensajeError"] = "El Sueldo 5% ingresado es menor que el minimo.";
-                                ModelState.AddModelError("SueldoBase", "El Sueldo ingresado tiene que ser mayor que 0.");
+                                //checkeo si el sueldo base ingresado es mayor al sueldo minimo para la categoria del empleado
+                                if (!ddjj.comprobarSueldoBase(detalleDeclaracionJurada.IdEmpleadoEmpresa, declaracionJurada.IdDeclaracionJurada, detalleDeclaracionJurada.SueldoBase.Value))
+                                {
+                                    TempData["MensajeError"] = "El Sueldo Base ingresado es menor que el minimo.";
+                                    ModelState.AddModelError("SueldoBase", "El Sueldo Base ingresado es menor que el minimo.");
+                                    return RedirectToAction("Index", "DetallesDeclaracionJurada", new { id = detalleDeclaracionJurada.IdDeclaracionJurada, idEmpleadoEmpresa = detalleDeclaracionJurada.IdEmpleadoEmpresa });
+                                }
 
-                                return View(detalleDeclaracionJurada);
+                                //checkeo si el sueldo base ingresado es mayor al sueldo ingresado para el empleado
+                                if (detalleDeclaracionJurada.SueldoBase < detalleDeclaracionJurada.Sueldo)
+                                {
+                                    TempData["MensajeError"] = "El Sueldo Base no puede ser menor que el sueldo ingresado.";
+                                    ModelState.AddModelError("SueldoBase", "El Sueldo 5% no puede ser menor que el sueldo ingresado.");
+                                    return RedirectToAction("Index", "DetallesDeclaracionJurada", new { id = detalleDeclaracionJurada.IdDeclaracionJurada, idEmpleadoEmpresa = detalleDeclaracionJurada.IdEmpleadoEmpresa });
+                                }
                             }
                         }
                     }
                 }
+                #endregion
+
+                //var afiliado = db.Afiliado.Where(x => x.IdEmpleadoEmpresa == empEmp.idEmpleadoEmpresa).FirstOrDefault();
+                //if (afiliado != null)
+                //{
+                //    if (afiliado.FechaAlta.Year < declaracionJurada.anio)
+                //    {
+                //        if (afiliado.FechaBaja == null || afiliado.FechaBaja.Value.Year > declaracionJurada.anio || (afiliado.FechaBaja.Value.Year == declaracionJurada.anio && afiliado.FechaBaja.Value.Month >= declaracionJurada.mes))
+                //        {
+                //            if (detalleDeclaracionJurada.SueldoBase <= 0)
+                //            {
+                //                TempData["MensajeError"] = "El Sueldo 5% ingresado es menor que el minimo.";
+                //                ModelState.AddModelError("SueldoBase", "El Sueldo ingresado tiene que ser mayor que 0.");
+
+                //                return View(detalleDeclaracionJurada);
+                //            }
+                //        }
+                //    }
+                //    else if (afiliado.FechaAlta.Year == declaracionJurada.anio && afiliado.FechaAlta.Month <= declaracionJurada.mes)
+                //    {
+                //        if (afiliado.FechaBaja == null || afiliado.FechaBaja.Value.Year > declaracionJurada.anio || (afiliado.FechaBaja.Value.Year == declaracionJurada.anio && afiliado.FechaBaja.Value.Month >= declaracionJurada.mes))
+                //        {
+                //            if (detalleDeclaracionJurada.SueldoBase <= 0)
+                //            {
+                //                TempData["MensajeError"] = "El Sueldo 5% ingresado es menor que el minimo.";
+                //                ModelState.AddModelError("SueldoBase", "El Sueldo ingresado tiene que ser mayor que 0.");
+
+                //                return View(detalleDeclaracionJurada);
+                //            }
+                //        }
+                //    }
+                //}
                 db.Entry(detalleDeclaracionJurada).State = EntityState.Modified;
                 db.SaveChanges();
 

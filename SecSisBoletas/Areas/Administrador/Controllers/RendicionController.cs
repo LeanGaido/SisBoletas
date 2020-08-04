@@ -89,9 +89,9 @@ namespace SecSisBoletas.Areas.Administrador.Controllers
                 //(Math.Truncate(((sueldos / 100) * 5) * 100) / 100).ToString();
                 #endregion
 
-                boleta.TotalDepositado2 = TruncateFunction(boleta.Aportes2, 2);
-                boleta.TotalDepositado5 = TruncateFunction(boleta.Aportes5, 2);
-                boleta.TotalDepositado = TruncateFunction(boleta.Aportes2 + boleta.Aportes5 + ((boleta.RecargoMora != null) ? (decimal)boleta.RecargoMora : 0), 2);
+                boleta.TotalDepositado2 = TruncateFunction(boleta.Aportes, 2);
+                boleta.TotalDepositado5 = TruncateFunction(boleta.AportesAfiliados, 2);
+                boleta.TotalDepositado = TruncateFunction(boleta.Aportes + boleta.AportesAfiliados + ((boleta.RecargoMora != null) ? (decimal)boleta.RecargoMora : 0), 2);
             }
 
             ViewBag.Mes = mes;
@@ -140,7 +140,7 @@ namespace SecSisBoletas.Areas.Administrador.Controllers
                             //{
                             //if (empleado.SueldoBase > 0)
                             //{
-                            sueldos5 += empleado.SueldoBase;
+                            sueldos5 += empleado.SueldoBase.Value;
                             //}
                             //else
                             //{
@@ -162,7 +162,7 @@ namespace SecSisBoletas.Areas.Administrador.Controllers
                             //{
                             //if (empleado.SueldoBase > 0)
                             //{
-                            sueldos5 += empleado.SueldoBase;
+                            sueldos5 += empleado.SueldoBase.Value;
                             //}
                             //else
                             //{
@@ -179,9 +179,9 @@ namespace SecSisBoletas.Areas.Administrador.Controllers
                 }
             }
 
-            boletaAportes.TotalSueldos2 = TruncateFunction(sueldos2, 2);
+            boletaAportes.TotalSueldos = TruncateFunction(sueldos2, 2);
 
-            boletaAportes.TotalSueldos5 = TruncateFunction(sueldos5, 2);
+            boletaAportes.TotalSueldosAfiliados = TruncateFunction(sueldos5, 2);
 
             decimal total2 = (sueldos2 / 100) * 2;
             decimal total5 = (sueldos5 / 100) * 5;
@@ -437,8 +437,8 @@ namespace SecSisBoletas.Areas.Administrador.Controllers
                 BoletaAportes boletaAportes = db.BoletaAportes.Find(IdsBoletas);
                 boletaAportes.BoletaPagada = true;
                 boletaAportes.FechaPago = DateTime.Today;
-                decimal total2 = (boletaAportes.TotalSueldos2 / 100) * 2;
-                decimal total5 = (boletaAportes.TotalSueldos5 / 100) * 5;
+                decimal total2 = (boletaAportes.TotalSueldos / 100) * 2;
+                decimal total5 = (boletaAportes.TotalSueldosAfiliados / 100) * 5;
                 boletaAportes.TotalPagado = Math.Truncate(total2 + total5);
 
                 db.SaveChanges();
@@ -476,8 +476,8 @@ namespace SecSisBoletas.Areas.Administrador.Controllers
 
             foreach (var boleta in BoletasAportesPagadas)
             {
-                decimal total2 = (boleta.TotalSueldos2 / 100) * 2;
-                decimal total5 = (boleta.TotalSueldos5 / 100) * 5;
+                decimal total2 = (boleta.TotalSueldos / 100) * 2;
+                decimal total5 = (boleta.TotalSueldosAfiliados / 100) * 5;
 
                 if(boleta.BoletaPagada == false)
                 {
@@ -511,14 +511,14 @@ namespace SecSisBoletas.Areas.Administrador.Controllers
                         {
                             if (afiliado.FechaBaja == null || afiliado.FechaBaja.Value.Year > declaracion.anio || (afiliado.FechaBaja.Value.Year == declaracion.anio && afiliado.FechaBaja.Value.Month >= declaracion.mes))
                             {
-                                sueldos5 += detalle.SueldoBase;
+                                sueldos5 += detalle.SueldoBase.Value;
                             }
                         }
                         else if (afiliado.FechaAlta.Year == declaracion.anio && afiliado.FechaAlta.Month <= declaracion.mes)
                         {
                             if (afiliado.FechaBaja == null || afiliado.FechaBaja.Value.Year > declaracion.anio || (afiliado.FechaBaja.Value.Year == declaracion.anio && afiliado.FechaBaja.Value.Month >= declaracion.mes))
                             {
-                                sueldos5 += detalle.SueldoBase;
+                                sueldos5 += detalle.SueldoBase.Value;
                             }
                         }
                     }

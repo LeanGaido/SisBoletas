@@ -309,7 +309,6 @@ namespace SecSisBoletas.Areas.Empresas.Controllers
             }
         }
 
-
         public void RollBackDeclaracion(int idDeclaracion)
         {
             if (idDeclaracion != 0)
@@ -336,6 +335,7 @@ namespace SecSisBoletas.Areas.Empresas.Controllers
                 db.SaveChanges();
             }
         }
+
         // GET: DeclaracionesJuradas/Details/5
         public ActionResult Details(int? id)
         {
@@ -445,60 +445,6 @@ namespace SecSisBoletas.Areas.Empresas.Controllers
             return View();
         }
 
-        //// GET: DeclaracionesJuradas/Delete/5
-        //public ActionResult Delete(int? id)
-        //{
-        //    if (id == null)
-        //    {
-        //        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-        //    }
-        //    DeclaracionJurada declaracionJurada = db.DeclaracionJurada.Find(id);
-        //    if (declaracionJurada == null)
-        //    {
-        //        return HttpNotFound();
-        //    }
-        //    if(db.BoletaAportes.Where(x => x.IdDeclaracionJurada == id).FirstOrDefault() != null)
-        //    {
-        //        return RedirectToAction("CantDeleteMessage");
-        //    }
-        //    return View(declaracionJurada);
-        //}
-
-        //// POST: DeclaracionesJuradas/Delete/5
-        //[HttpPost, ActionName("Delete")]
-        //[ValidateAntiForgeryToken]
-        //public ActionResult DeleteConfirmed(int id)
-        //{
-        //    if (db.BoletaAportes.Where(x => x.IdDeclaracionJurada == id).FirstOrDefault() != null)
-        //    {
-        //        return RedirectToAction("CantDeleteMessage");
-        //    }
-        //    var detalles = db.DetalleDeclaracionJurada.Where(x => x.IdDeclaracionJurada == id).ToList();
-        //    foreach (DetalleDeclaracionJurada detalle in detalles)
-        //    {
-        //        if (detalle != null)
-        //        {
-        //            var liquidacion = db.LiquidacionProporcionalEmpleado.Where(x => x.IdDetalleDeclaracionJurada == detalle.IdDetalleDeclaracionJurada).FirstOrDefault();
-        //            if(liquidacion != null)
-        //            {
-        //                db.LiquidacionProporcionalEmpleado.Remove(liquidacion);
-        //                db.SaveChanges();
-        //            }
-        //            db.DetalleDeclaracionJurada.Remove(detalle);
-        //        }
-        //    }
-        //    db.SaveChanges();
-        //    DeclaracionJurada declaracionJurada = db.DeclaracionJurada.Find(id);
-        //    db.DeclaracionJurada.Remove(declaracionJurada);
-        //    db.SaveChanges();
-        //    return RedirectToAction("DeleteMessage");
-        //}
-
-        //public ActionResult DeleteMessage()
-        //{
-        //    return View();
-        //}
-
         public ActionResult CantDeleteMessage()
         {
             return View();
@@ -506,344 +452,14 @@ namespace SecSisBoletas.Areas.Empresas.Controllers
 
         public bool comprobarSueldoBasico(int IdEmpleadoEmpresa, int IdDeclaracionJurada, decimal sueldoIngresado)
         {
-            #region Old
-            ////var declaracionJurada = db.DeclaracionJurada.Find(IdDeclaracionJurada);
-            //var empleadoEmpresa = db.EmpleadoEmpresa.Where(x => x.idEmpleadoEmpresa == IdEmpleadoEmpresa).FirstOrDefault();
-            //decimal sueldo = 1;
-
-            ///*
-            // * Establece el sueldo minimo basandose en la categoria y jornada del empleado
-            // */
-            //DateTime fechaSueldo = new DateTime(anio, mes, DateTime.Today.Day); 
-            //var sueldosBasicos = db.SueldoBasico.Where(x => x.IdCategoria == empleadoEmpresa.IdCategoria &&
-            //                                                x.Desde <= fechaSueldo &&
-            //                                                x.Hasta >= fechaSueldo).ToList();
-            //if(sueldosBasicos != null && sueldosBasicos.Count > 0)
-            //{
-            //    foreach (var sueldos in sueldosBasicos)
-            //    {
-            //        if (sueldos != null && sueldos.Desde.Year == anio)
-            //        {
-            //            if (sueldos.Hasta.Year == anio)
-            //            {
-            //                if (sueldos.Desde.Month <= mes && sueldos.Hasta.Month >= mes)
-            //                {
-            //                    if (empleadoEmpresa.IdJornada == 2)
-            //                    {
-            //                        sueldo = (sueldos.Monto / 2);
-            //                    }
-            //                    else if (empleadoEmpresa.IdJornada == 3)
-            //                    {
-            //                        sueldo = sueldos.Monto;
-            //                    }
-            //                }
-            //            }
-            //            if (sueldos.Hasta.Year > anio)
-            //            {
-            //                if (empleadoEmpresa.IdJornada == 1)
-            //                {
-            //                    sueldo = 1;
-            //                }
-            //                else if (empleadoEmpresa.IdJornada == 2)
-            //                {
-            //                    sueldo = (sueldos.Monto / 2);
-            //                }
-            //                else if (empleadoEmpresa.IdJornada == 3)
-            //                {
-            //                    sueldo = sueldos.Monto;
-            //                }
-            //            }
-            //        }
-            //    }
-
-            //    /*
-            //     * Sueldo basico mas antiguedad
-            //     */
-            //    decimal antiguedad = MonthDifference(new DateTime(anio, mes, 1), empleadoEmpresa.FechaAlta);
-            //    antiguedad = antiguedad / 12;
-            //    sueldo += ((sueldo / 100) * Math.Truncate(antiguedad));
-
-            //    /*
-            //     * Sueldo basico mas 
-            //     */
-            //    sueldo += ((sueldo / 100) * (decimal)8.33);
-
-            //    /*
-            //     * Verifica si el empleado esta en licencia en el momento de la declaracion jurada, si esta de licencia, el sistema
-            //     * le permite ingresar un sueldo por debajo del minimo
-            //     */
-            //    bool enLicencia = false;
-
-            //    foreach (var licencia in db.LicenciaEmpleado.Where(x => x.IdEmpleadoEmpresa == empleadoEmpresa.idEmpleadoEmpresa))
-            //    {
-            //        if (licencia != null)
-            //        {
-            //            if(licencia.IdLicenciaLaboral != 3)
-            //            {
-            //                if (licencia.FechaBajaLicencia.Value.Year == anio)
-            //                {
-            //                    if (licencia.FechaAltaLicencia.Month <= mes && licencia.FechaBajaLicencia.Value.Month >= mes)
-            //                    {
-            //                        enLicencia = true;
-            //                        sueldo = 0;
-            //                    }
-            //                }
-            //                if (licencia.FechaBajaLicencia.Value.Year > anio)
-            //                {
-            //                    if (licencia.FechaAltaLicencia.Year <= anio && licencia.FechaAltaLicencia.Month <= mes)
-            //                    {
-            //                        enLicencia = true;
-            //                        sueldo = 0;
-            //                    }
-            //                }
-            //            }
-            //            else
-            //            {
-            //                if ((licencia.FechaBajaLicencia.Value.Year == anio &&
-            //                    licencia.FechaBajaLicencia.Value.Month == mes) ||
-            //                    licencia.FechaBajaLicencia.Value.Year == anio &&
-            //                    licencia.FechaBajaLicencia.Value.Month == mes -1)
-            //                {
-            //                    enLicencia = true;
-            //                }
-            //                else if (licencia.FechaBajaLicencia.Value.Year == (anio - 1) &&
-            //                    licencia.FechaBajaLicencia.Value.Month == 12 && mes == 1)
-            //                {
-            //                    enLicencia = true;
-            //                }
-            //            }
-
-            //        }
-            //        if (enLicencia)
-            //        {
-            //            switch (licencia.IdLicenciaLaboral)
-            //            {
-            //                case 1://Enfermedad
-            //                    if ((licencia.FechaBajaLicencia - licencia.FechaAltaLicencia) > new TimeSpan(365, 0, 0, 0))
-            //                    {
-            //                        sueldo = 1;
-            //                        DateTime fecha = new DateTime(anio, mes, 1);
-            //                        if (MonthDifference(fecha, licencia.FechaAltaLicencia) >= 12)
-            //                        {
-            //                            sueldo = 0;
-            //                        }
-            //                    }
-            //                    break;
-            //                case 2://Maternidad
-            //                    if (licencia.FechaAltaLicencia.Month == mes)
-            //                    {
-            //                        //Si el/la empleado/a entro en licencia por maternidad habiendo trabajado
-            //                        //almenos un dia el sistema solicita ingresar un sueldo mayor a 1
-            //                        if (licencia.FechaAltaLicencia.Day > 1)
-            //                        {
-            //                            sueldo = 1;
-            //                        }
-            //                    }
-            //                    if (licencia.FechaBajaLicencia.Value.Month == mes)
-            //                    {
-            //                        //Si el/la empleado/a volvio de licencia por maternidad antes de terminar el mes
-            //                        //el sistema solicita ingresar un sueldo mayor a 1
-            //                        if (licencia.FechaAltaLicencia.Day < 31)
-            //                        {
-            //                            sueldo = 1;
-            //                        }
-            //                    }
-            //                    break;
-            //                case 3://Vacaciones
-            //                       //Si el/la empleado/a estuvo de vacaciones el mes anterior a la declaracion jurada
-            //                       //el sistema permite ingresar un sueldo menor que el minimo
-            //                    if (licencia.FechaBajaLicencia.Value.Year == anio)
-            //                    {
-            //                        if ((licencia.FechaBajaLicencia.Value.Month == (mes)) ||
-            //                            (licencia.FechaBajaLicencia.Value.Month == (mes - 1)))
-            //                        {
-            //                            sueldo = 0;
-            //                        }
-            //                    }
-            //                    if (licencia.FechaBajaLicencia.Value.Year == (anio - 1) &&
-            //                        licencia.FechaBajaLicencia.Value.Month == 12 && mes == 1)
-            //                    {
-            //                        sueldo = 0;
-            //                    }
-            //                    break;
-            //                default:
-            //                    break;
-            //            }
-            //        }
-
-            //    }
-            //}
-            //else
-            //{
-            //    //"No Hay Sueldos Basicos Cargados Para Esta Fecha"
-            //}
-
-            //sueldo = TruncateFunction(sueldo, 2);
-            #endregion
-
-            decimal sueldo = empl.obtenerSueldo2(IdEmpleadoEmpresa, IdDeclaracionJurada, true);
+            decimal sueldo = empl.obtenerSueldo(IdEmpleadoEmpresa, IdDeclaracionJurada, true);
 
             return ((sueldo - 0.05M) <= sueldoIngresado) ? true : false;
         }
 
         public bool comprobarSueldoBase(int IdEmpleadoEmpresa, int IdDeclaracionJurada, decimal sueldoIngresado)
         {
-            #region Old
-            ////var declaracionJurada = db.DeclaracionJurada.Find(IdDeclaracionJurada);
-            //var empleadoEmpresa = db.EmpleadoEmpresa.Where(x => x.idEmpleadoEmpresa == IdEmpleadoEmpresa).FirstOrDefault();
-            //decimal sueldo = 1;
-
-            ///*
-            // * Establece el sueldo minimo basandose en la categoria y jornada del empleado
-            // */
-            //DateTime fechaSueldo = new DateTime(anio, mes, DateTime.Today.Day);
-            //var sueldosBasicos = db.SueldoBasico.Where(x => x.IdCategoria == empleadoEmpresa.IdCategoria &&
-            //                                                x.Desde <= fechaSueldo &&
-            //                                                x.Hasta >= fechaSueldo).ToList();
-            //if (sueldosBasicos != null && sueldosBasicos.Count > 0)
-            //{
-            //    foreach (var sueldos in sueldosBasicos)
-            //    {
-            //        if (sueldos != null && sueldos.Desde.Year == anio)
-            //        {
-            //            if (sueldos.Hasta.Year == anio)
-            //            {
-            //                if (sueldos.Desde.Month <= mes && sueldos.Hasta.Month >= mes)
-            //                {
-            //                    sueldo = sueldos.Monto;
-            //                }
-            //            }
-            //            if (sueldos.Hasta.Year > anio)
-            //            {
-            //                sueldo = sueldos.Monto;
-            //            }
-            //        }
-            //    }
-
-            //    /*
-            //     * Sueldo basico mas antiguedad
-            //     */
-            //    decimal antiguedad = MonthDifference(new DateTime(anio, mes, 1), empleadoEmpresa.FechaAlta);
-            //    antiguedad = antiguedad / 12;
-            //    sueldo += ((sueldo / 100) * Math.Truncate(antiguedad));
-
-            //    /*
-            //     * Sueldo basico mas 
-            //     */
-            //    sueldo += ((sueldo / 100) * (decimal)8.33);
-
-            //    /*
-            //     * Verifica si el empleado esta en licencia en el momento de la declaracion jurada, si esta de licencia, el sistema
-            //     * le permite ingresar un sueldo por debajo del minimo
-            //     */
-            //    bool enLicencia = false;
-
-            //    foreach (var licencia in db.LicenciaEmpleado.Where(x => x.IdEmpleadoEmpresa == empleadoEmpresa.idEmpleadoEmpresa))
-            //    {
-            //        if (licencia != null)
-            //        {
-            //            if (licencia.IdLicenciaLaboral != 3)
-            //            {
-            //                if (licencia.FechaBajaLicencia.Value.Year == anio)
-            //                {
-            //                    if (licencia.FechaAltaLicencia.Month <= mes && licencia.FechaBajaLicencia.Value.Month >= mes)
-            //                    {
-            //                        enLicencia = true;
-            //                        sueldo = 0;
-            //                    }
-            //                }
-            //                if (licencia.FechaBajaLicencia.Value.Year > anio)
-            //                {
-            //                    if (licencia.FechaAltaLicencia.Year <= anio && licencia.FechaAltaLicencia.Month <= mes)
-            //                    {
-            //                        enLicencia = true;
-            //                        sueldo = 0;
-            //                    }
-            //                }
-            //            }
-            //            else
-            //            {
-            //                if ((licencia.FechaBajaLicencia.Value.Year == anio &&
-            //                    licencia.FechaBajaLicencia.Value.Month == mes) ||
-            //                    licencia.FechaBajaLicencia.Value.Year == anio &&
-            //                    licencia.FechaBajaLicencia.Value.Month == mes - 1)
-            //                {
-            //                    enLicencia = true;
-            //                }
-            //                else if (licencia.FechaBajaLicencia.Value.Year == (anio - 1) &&
-            //                    licencia.FechaBajaLicencia.Value.Month == 12 && mes == 1)
-            //                {
-            //                    enLicencia = true;
-            //                }
-            //            }
-            //        }
-
-            //        if (enLicencia)
-            //        {
-            //            switch (licencia.IdLicenciaLaboral)
-            //            {
-            //                case 1://Enfermedad
-            //                    if ((licencia.FechaBajaLicencia - licencia.FechaAltaLicencia) > new TimeSpan(365, 0, 0, 0))
-            //                    {
-            //                        sueldo = 1;
-            //                        DateTime fecha = new DateTime(anio, mes, 1);
-            //                        if (MonthDifference(fecha, licencia.FechaAltaLicencia) >= 12)
-            //                        {
-            //                            sueldo = 0;
-            //                        }
-            //                    }
-            //                    break;
-            //                case 2://Maternidad
-            //                    if (licencia.FechaAltaLicencia.Month == mes)
-            //                    {
-            //                        //Si el/la empleado/a entro en licencia por maternidad habiendo trabajado
-            //                        //almenos un dia el sistema solicita ingresar un sueldo mayor a 1
-            //                        if (licencia.FechaAltaLicencia.Day > 1)
-            //                        {
-            //                            sueldo = 1;
-            //                        }
-            //                    }
-            //                    if (licencia.FechaBajaLicencia.Value.Month == mes)
-            //                    {
-            //                        //Si el/la empleado/a volvio de licencia por maternidad antes de terminar el mes
-            //                        //el sistema solicita ingresar un sueldo mayor a 1
-            //                        if (licencia.FechaAltaLicencia.Day < 31)
-            //                        {
-            //                            sueldo = 1;
-            //                        }
-            //                    }
-            //                    break;
-            //                case 3://Vacaciones
-            //                       //Si el/la empleado/a estuvo de vacaciones el mes anterior a la declaracion jurada
-            //                       //el sistema permite ingresar un sueldo menor que el minimo
-            //                    if (licencia.FechaBajaLicencia.Value.Year == anio)
-            //                    {
-            //                        if ((licencia.FechaBajaLicencia.Value.Month == (mes)) ||
-            //                            (licencia.FechaBajaLicencia.Value.Month == (mes - 1)))
-            //                        {
-            //                            sueldo = 0;
-            //                        }
-            //                    }
-            //                    if (licencia.FechaBajaLicencia.Value.Year == (anio - 1) &&
-            //                        licencia.FechaBajaLicencia.Value.Month == 12 && mes == 1)
-            //                    {
-            //                        sueldo = 0;
-            //                    }
-            //                    break;
-            //                default:
-            //                    break;
-            //            }
-            //        }
-
-            //    }
-            //}
-            //else
-            //{
-            //    //"No Hay Sueldos Basicos Cargados Para Esta Fecha"
-            //}
-            #endregion
-
-            decimal sueldo = empl.obtenerSueldo5(IdEmpleadoEmpresa, IdDeclaracionJurada, true);
+            decimal sueldo = empl.obtenerSueldoAfiliado(IdEmpleadoEmpresa, IdDeclaracionJurada, true);
 
             sueldo = TruncateFunction(sueldo, 2);
 
@@ -892,13 +508,13 @@ namespace SecSisBoletas.Areas.Empresas.Controllers
                         {
                             if (detalle.idJornadaLaboral == 1 || detalle.idJornadaLaboral == 2)
                             {
-                                totalAportes += Math.Round(((detalle.SueldoBase / 100) * 5), 2);
+                                totalAportes += Math.Round(((detalle.SueldoBase.Value / 100) * 5), 2);
                             }
                             else
                             {
                                 totalAportes += Math.Round(((detalle.Sueldo / 100) * 5), 2);
                             }
-                            totalSueldosBase += detalle.SueldoBase;
+                            totalSueldosBase += detalle.SueldoBase.Value;
                             detalle.EsAfiliado = true;
                         }
                     }
@@ -908,13 +524,13 @@ namespace SecSisBoletas.Areas.Empresas.Controllers
                         {
                             if (detalle.idJornadaLaboral == 1 || detalle.idJornadaLaboral == 2)
                             {
-                                totalAportes += Math.Round(((detalle.SueldoBase / 100) * 5), 2);
+                                totalAportes += Math.Round(((detalle.SueldoBase.Value / 100) * 5), 2);
                             }
                             else
                             {
                                 totalAportes += Math.Round(((detalle.Sueldo / 100) * 5), 2);
                             }
-                            totalSueldosBase += detalle.SueldoBase;
+                            totalSueldosBase += detalle.SueldoBase.Value;
                             detalle.EsAfiliado = true;
                         }
                     }
@@ -988,124 +604,6 @@ namespace SecSisBoletas.Areas.Empresas.Controllers
                 MinimumFontSize = 12
             };
         }
-
-        //[AllowAnonymous]
-        //public ActionResult ImpresionDDJJPorEmpresas(int id)
-        //{
-        //    var declaracionJurada = db.DeclaracionJurada.Where(x => x.IdDeclaracionJurada == id).FirstOrDefault();
-
-        //    var empresa = db.Empresa.Where(x => x.IdEmpresa == declaracionJurada.idEmpresa).FirstOrDefault();
-        //    ViewBag.RazonSocial = empresa.RazonSocial;
-        //    ViewBag.Nro = empresa.Altura;
-        //    ViewBag.Cuit = empresa.Cuit;
-        //    ViewBag.Calle = empresa.Calle;
-        //    ViewBag.LocalidadEmpresa = empresa.Localidad.Nombre;
-        //    ViewBag.ProvinciaEmpresa = empresa.Localidad.Provincia.Nombre;
-
-
-        //    decimal totalSueldos = 0, totalAportes = 0, totalSueldosBase = 0;
-        //    var detalleDeclaracionJurada = (db.DetalleDeclaracionJurada.Include(d => d.Categoria)
-        //                                                               .Include(d => d.DeclaracionJurada)
-        //                                                               .Include(d => d.EmpleadoEmpresa)
-        //                                                               .Include(d => d.Jornada)
-        //                                                               .Where(x => x.IdDeclaracionJurada == id && x.EmpleadoEmpresa.FechaBaja == null));
-        //    ViewBag.IdDeclaracionJurada = id;
-
-        //    foreach (DetalleDeclaracionJurada detalle in detalleDeclaracionJurada)
-        //    {
-        //        totalSueldos += Math.Round(detalle.Sueldo, 2);
-        //        var afiliado = db.Afiliado.Where(x => x.IdEmpleado == detalle.EmpleadoEmpresa.idEmpleado).FirstOrDefault();
-        //        if (afiliado != null)
-        //        {
-        //            if (afiliado.FechaAlta.Year < declaracionJurada.anio)
-        //            {
-        //                if (afiliado.FechaBaja == null || afiliado.FechaBaja.Value.Year > declaracionJurada.anio || (afiliado.FechaBaja.Value.Year == declaracionJurada.anio && afiliado.FechaBaja.Value.Month >= declaracionJurada.mes))
-        //                {
-        //                    if(detalle.idJornadaLaboral == 1 || detalle.idJornadaLaboral == 2)
-        //                    {
-        //                        totalAportes += Math.Round(((detalle.SueldoBase / 100) * 5), 2);
-        //                    }
-        //                    else
-        //                    {
-        //                        totalAportes += Math.Round(((detalle.Sueldo / 100) * 5), 2);
-        //                    }
-        //                    totalSueldosBase += detalle.SueldoBase;
-        //                    detalle.EsAfiliado = true;
-        //                }
-        //            }
-        //            else if (afiliado.FechaAlta.Year == declaracionJurada.anio && afiliado.FechaAlta.Month <= declaracionJurada.mes)
-        //            {
-        //                if (afiliado.FechaBaja == null || afiliado.FechaBaja.Value.Year > declaracionJurada.anio || (afiliado.FechaBaja.Value.Year == declaracionJurada.anio && afiliado.FechaBaja.Value.Month >= declaracionJurada.mes))
-        //                {
-        //                    if (detalle.idJornadaLaboral == 1 || detalle.idJornadaLaboral == 2)
-        //                    {
-        //                        totalAportes += Math.Round(((detalle.SueldoBase / 100) * 5), 2);
-        //                    }
-        //                    else
-        //                    {
-        //                        totalAportes += Math.Round(((detalle.Sueldo / 100) * 5), 2);
-        //                    }
-        //                    totalSueldosBase += detalle.SueldoBase;
-        //                    detalle.EsAfiliado = true;
-        //                }
-        //            }
-        //        }
-        //        else
-        //        {
-        //            totalAportes += Math.Round(((detalle.Sueldo / 100) * 2), 2);
-        //            detalle.EsAfiliado = false;
-        //        }
-        //        detalle.LicenciaEmpleado = false;
-        //        foreach (var licencia in db.LicenciaEmpleado.Where(x => x.IdEmpleadoEmpresa == detalle.IdEmpleadoEmpresa))
-        //        {
-        //            if (licencia != null && licencia.FechaAltaLicencia.Year == detalle.DeclaracionJurada.anio)
-        //            {
-        //                if (licencia.FechaBajaLicencia.Value.Year == detalle.DeclaracionJurada.anio)
-        //                {
-        //                    if (licencia.FechaAltaLicencia.Month <= detalle.DeclaracionJurada.mes && licencia.FechaBajaLicencia.Value.Month >= detalle.DeclaracionJurada.mes)
-        //                    {
-        //                        detalle.LicenciaEmpleado = true;
-        //                    }
-        //                }
-        //                if (licencia.FechaBajaLicencia.Value.Year > detalle.DeclaracionJurada.anio)
-        //                {
-        //                    if (licencia.FechaBajaLicencia.Value.Month >= detalle.DeclaracionJurada.mes)
-        //                    {
-        //                        detalle.LicenciaEmpleado = true;
-        //                    }
-        //                }
-        //            }
-        //            if (licencia.FechaBajaLicencia.Value.Year >= detalle.DeclaracionJurada.anio)
-        //            {
-        //                if (licencia.FechaBajaLicencia.Value.Month >= detalle.DeclaracionJurada.mes)
-        //                {
-        //                    detalle.LicenciaEmpleado = true;
-        //                }
-        //            }
-        //        }
-        //        var LiquidacionProporcional = db.LiquidacionProporcionalEmpleado.Where(x => x.IdDetalleDeclaracionJurada == detalle.IdDetalleDeclaracionJurada).FirstOrDefault();
-        //        detalle.LiquidacionProporcional = (LiquidacionProporcional != null) ? true : false;
-        //        detalle.IdLiquidacionProporcional = detalle.IdLiquidacionProporcional;
-        //    }
-        //    ViewBag.TotalSueldos = totalSueldos;
-        //    ViewBag.TotalSueldosBase = totalSueldosBase;
-        //    ViewBag.TotalAportes = totalAportes;
-
-        //    return View(detalleDeclaracionJurada.ToList());
-        //}
-
-        //[AllowAnonymous]
-        //public ActionResult ImprimirDDJJPorEmpresas(int id)
-        //{
-        //    return new ActionAsPdf("ImpresionDDJJPorEmpresas", new { id })
-        //    {
-        //        FileName = "Declaracion-Jurada.pdf",
-        //        PageSize = Rotativa.Options.Size.A4,
-        //        PageOrientation = Rotativa.Options.Orientation.Portrait,
-        //        MinimumFontSize = 12
-        //    };
-        //}
-
 
         public decimal TruncateFunction(decimal number, int digits)
         {

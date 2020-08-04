@@ -98,7 +98,8 @@ namespace SecSisBoletas.Areas.Administrador.Controllers
 
             //Datos de la Empresa
 
-            var empresa = db.Empresa.Include(e => e.Actividad).Include(e => e.Localidad);
+            //.Include(e => e.Actividad)
+            var empresa = db.Empresa.Include(e => e.Localidad);
 
             if (int.Parse(filtros[3]) != 0)
             {

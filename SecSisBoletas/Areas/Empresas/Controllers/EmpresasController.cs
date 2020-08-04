@@ -20,7 +20,8 @@ namespace SecSisBoletas.Areas.Empresas.Controllers
         // GET: Empresa/Empresas
         public ActionResult Index()
         {
-            var empresa = db.Empresa.Include(e => e.Actividad).Include(e => e.Localidad);
+            //.Include(e => e.Actividad)
+            var empresa = db.Empresa.Include(e => e.Localidad);
             return View(empresa.ToList());
         }
 

@@ -29,7 +29,6 @@ namespace SecSisBoletas.Areas.Administrador.Controllers
         // GET: Administrador/Listados/BoletaAportes
         public ActionResult IndexBoletaAportes(int? mes, int? anio, int estadoPago = 0, int idEmpresa = 0)
         {
-            /**/
             #region actualizar valores
             //var boletaAportesAux = db.BoletaAportes.Include(b => b.DeclaracionJurada).Where(x => x.DeBaja == false);
             //foreach (var boleta in boletaAportesAux)
@@ -84,10 +83,9 @@ namespace SecSisBoletas.Areas.Administrador.Controllers
             //db.SaveChanges();
             #endregion
 
-            //if (idEmpresa != 0)
-            //{
+            
             var boletaAportes = db.BoletaAportes.Include(t => t.DeclaracionJurada).Where(x => x.DeclaracionJurada.idEmpresa == idEmpresa && x.DeBaja == false);
-            //}
+            
 
             if (estadoPago == 1)
             {
@@ -106,75 +104,8 @@ namespace SecSisBoletas.Areas.Administrador.Controllers
 
             foreach (var boleta in boletaAportes)
             {
-                #region Old
-                //DeclaracionJurada ddjj = db.DeclaracionJurada.Where(x => x.IdDeclaracionJurada == boleta.IdDeclaracionJurada).FirstOrDefault();
-
-                //var empleados = db.DetalleDeclaracionJurada.Where(x => x.IdDeclaracionJurada == ddjj.IdDeclaracionJurada).ToList();
-
-                //int count2 = 0, count5 = 0;
-                //decimal sueldos2 = 0, sueldos5 = 0;
-                //foreach (var empleado in empleados)
-                //{
-                //    sueldos2 += empleado.Sueldo;
-                //    count2++;
-                //    var afiliado = db.Afiliado.Where(x => x.IdEmpleadoEmpresa == empleado.IdEmpleadoEmpresa).FirstOrDefault();
-                //    if (afiliado != null)
-                //    {
-                //        if (afiliado.FechaAlta.Year < ddjj.anio)
-                //        {
-                //            if (afiliado.FechaBaja == null || afiliado.FechaBaja.Value.Year > ddjj.anio || (afiliado.FechaBaja.Value.Year == ddjj.anio && afiliado.FechaBaja.Value.Month >= ddjj.mes))
-                //            {
-                //                //if (empleado.idJornadaLaboral == 1 || empleado.idJornadaLaboral == 2)
-                //                //{
-                //                    //if (empleado.SueldoBase > 0)
-                //                    //{
-                //                        sueldos5 += empleado.SueldoBase;
-                //                    //}
-                //                    //else
-                //                    //{
-                //                    //    sueldos5 += empleado.Sueldo;
-                //                    //}
-                //                //}
-                //                //else
-                //                //{
-                //                //    sueldos5 += empleado.Sueldo;
-                //                //}
-                //                count5++;
-                //            }
-                //        }
-                //        else if (afiliado.FechaAlta.Year == ddjj.anio && afiliado.FechaAlta.Month <= ddjj.mes)
-                //        {
-                //            if (afiliado.FechaBaja == null || afiliado.FechaBaja.Value.Year > ddjj.anio || (afiliado.FechaBaja.Value.Year == ddjj.anio && afiliado.FechaBaja.Value.Month >= ddjj.mes))
-                //            {
-                //                //if (empleado.idJornadaLaboral == 1 || empleado.idJornadaLaboral == 2)
-                //                //{
-                //                    //if (empleado.SueldoBase > 0)
-                //                    //{
-                //                        sueldos5 += empleado.SueldoBase;
-                //                    //}
-                //                    //else
-                //                    //{
-                //                    //    sueldos5 += empleado.Sueldo;
-                //                    //}
-                //                //}
-                //                //else
-                //                //{
-                //                //    sueldos5 += empleado.Sueldo;
-                //                //}
-                //                count5++;
-                //            }
-                //        }
-                //    }
-                //}
-
-                //decimal total2 = (sueldos2 / 100) * 2;
-                //decimal total5 = (sueldos5 / 100) * 5;
-                #endregion
-
                 decimal mora = (boleta.RecargoMora != null) ? (decimal)boleta.RecargoMora : 0;
-                boleta.TotalDepositado2 = TruncateFunction(boleta.Aportes2, 2);
-                boleta.TotalDepositado5 = TruncateFunction(boleta.Aportes5, 2);
-                boleta.TotalDepositado = TruncateFunction(boleta.Aportes2 + boleta.Aportes5 + mora,2);
+                boleta.TotalDepositado = TruncateFunction(boleta.Aportes + boleta.AportesAfiliados + mora,2);
             }
 
             ViewBag.Mes = mes;
@@ -204,76 +135,8 @@ namespace SecSisBoletas.Areas.Administrador.Controllers
 
             DeclaracionJurada ddjj = db.DeclaracionJurada.Where(x => x.IdDeclaracionJurada == boletaAportes.IdDeclaracionJurada).FirstOrDefault();
 
-            var empleados = db.DetalleDeclaracionJurada.Where(x => x.IdDeclaracionJurada == ddjj.IdDeclaracionJurada).ToList();
-
-            int count2 = 0, count5 = 0;
-            decimal sueldos2 = 0, sueldos5 = 0;
-            foreach (var empleado in empleados)
-            {
-                sueldos2 += empleado.Sueldo;
-                count2++;
-                var afiliado = db.Afiliado.Where(x => x.IdEmpleadoEmpresa == empleado.IdEmpleadoEmpresa).FirstOrDefault();
-                if (afiliado != null)
-                {
-                    if (afiliado.FechaAlta.Year < ddjj.anio)
-                    {
-                        if (afiliado.FechaBaja == null || afiliado.FechaBaja.Value.Year > ddjj.anio || (afiliado.FechaBaja.Value.Year == ddjj.anio && afiliado.FechaBaja.Value.Month >= ddjj.mes))
-                        {
-                            //if (empleado.idJornadaLaboral == 1 || empleado.idJornadaLaboral == 2)
-                            //{
-                                //if (empleado.SueldoBase > 0)
-                                //{
-                                    sueldos5 += empleado.SueldoBase;
-                                //}
-                                //else
-                                //{
-                                //    sueldos5 += empleado.Sueldo;
-                                //}
-                            //}
-                            //else
-                            //{
-                            //    sueldos5 += empleado.Sueldo;
-                            //}
-                            count5++;
-                        }
-                    }
-                    else if (afiliado.FechaAlta.Year == ddjj.anio && afiliado.FechaAlta.Month <= ddjj.mes)
-                    {
-                        if (afiliado.FechaBaja == null || afiliado.FechaBaja.Value.Year > ddjj.anio || (afiliado.FechaBaja.Value.Year == ddjj.anio && afiliado.FechaBaja.Value.Month >= ddjj.mes))
-                        {
-                            //if (empleado.idJornadaLaboral == 1 || empleado.idJornadaLaboral == 2)
-                            //{
-                                //if (empleado.SueldoBase > 0)
-                                //{
-                                    sueldos5 += empleado.SueldoBase;
-                                //}
-                                //else
-                                //{
-                                //    sueldos5 += empleado.Sueldo;
-                                //}
-                            //}
-                            //else
-                            //{
-                            //    sueldos5 += empleado.Sueldo;
-                            //}
-                            count5++;
-                        }
-                    }
-                }
-            }
-
-            boletaAportes.TotalSueldos2 = TruncateFunction(sueldos2, 2);
-
-            boletaAportes.TotalSueldos5 = TruncateFunction(sueldos5, 2);
-
-            decimal total2 = (sueldos2 / 100) * 2;
-            decimal total5 = (sueldos5 / 100) * 5;
-
             decimal mora = (boletaAportes.RecargoMora != null) ? (decimal)boletaAportes.RecargoMora : 0;
-            //(Math.Truncate(((sueldos / 100) * 5) * 100) / 100).ToString();
-            boletaAportes.TotalDepositado2 = TruncateFunction(total2,2);//Math.Truncate((total2 * 100) / (decimal)100);// Math.Truncate(total2);
-            boletaAportes.TotalDepositado5 = TruncateFunction(total5, 2);//Math.Truncate((total5 * 100) / 100);// Math.Truncate(total5);
-            boletaAportes.TotalDepositado = TruncateFunction(total2 + total5 + mora, 2);//Math.Truncate(((total2 + total5 + mora) * 100) / 100); //Math.Truncate(total2 + total5 + mora);
+            boletaAportes.TotalDepositado = TruncateFunction(boletaAportes.Aportes + boletaAportes.AportesAfiliados + mora, 2);
 
             ViewBag.IdEmpresa = ddjj.idEmpresa;
 
@@ -304,76 +167,8 @@ namespace SecSisBoletas.Areas.Administrador.Controllers
 
             DeclaracionJurada ddjj = db.DeclaracionJurada.Where(x => x.IdDeclaracionJurada == boletaAportes.IdDeclaracionJurada).FirstOrDefault();
 
-            var empleados = db.DetalleDeclaracionJurada.Where(x => x.IdDeclaracionJurada == ddjj.IdDeclaracionJurada).ToList();
-
-            int count2 = 0, count5 = 0;
-            decimal sueldos2 = 0, sueldos5 = 0;
-            foreach (var empleado in empleados)
-            {
-                sueldos2 += empleado.Sueldo;
-                count2++;
-                var afiliado = db.Afiliado.Where(x => x.IdEmpleadoEmpresa == empleado.IdEmpleadoEmpresa).FirstOrDefault();
-                if (afiliado != null)
-                {
-                    if (afiliado.FechaAlta.Year < ddjj.anio)
-                    {
-                        if (afiliado.FechaBaja == null || afiliado.FechaBaja.Value.Year > ddjj.anio || (afiliado.FechaBaja.Value.Year == ddjj.anio && afiliado.FechaBaja.Value.Month >= ddjj.mes))
-                        {
-                            //if (empleado.idJornadaLaboral == 1 || empleado.idJornadaLaboral == 2)
-                            //{
-                                //if (empleado.SueldoBase > 0)
-                                //{
-                                    sueldos5 += empleado.SueldoBase;
-                                //}
-                                //else
-                                //{
-                                //    sueldos5 += empleado.Sueldo;
-                                //}
-                            //}
-                            //else
-                            //{
-                            //    sueldos5 += empleado.Sueldo;
-                            //}
-                            count5++;
-                        }
-                    }
-                    else if (afiliado.FechaAlta.Year == ddjj.anio && afiliado.FechaAlta.Month <= ddjj.mes)
-                    {
-                        if (afiliado.FechaBaja == null || afiliado.FechaBaja.Value.Year > ddjj.anio || (afiliado.FechaBaja.Value.Year == ddjj.anio && afiliado.FechaBaja.Value.Month >= ddjj.mes))
-                        {
-                            //if (empleado.idJornadaLaboral == 1 || empleado.idJornadaLaboral == 2)
-                            //{
-                                //if (empleado.SueldoBase > 0)
-                                //{
-                                    sueldos5 += empleado.SueldoBase;
-                                //}
-                                //else
-                                //{
-                                //    sueldos5 += empleado.Sueldo;
-                                //}
-                            //}
-                            //else
-                            //{
-                            //    sueldos5 += empleado.Sueldo;
-                            //}
-                            count5++;
-                        }
-                    }
-                }
-            }
-
-            boletaAportes.TotalSueldos2 = TruncateFunction(sueldos2, 2);
-
-            boletaAportes.TotalSueldos5 = TruncateFunction(sueldos5, 2);
-
-            decimal total2 = (sueldos2 / 100) * 2;
-            decimal total5 = (sueldos5 / 100) * 5;
-
             decimal mora = (boletaAportes.RecargoMora != null) ? (decimal)boletaAportes.RecargoMora : 0;
-            //(Math.Truncate(((sueldos / 100) * 5) * 100) / 100).ToString();
-            boletaAportes.TotalDepositado2 = TruncateFunction(total2, 2);
-            boletaAportes.TotalDepositado5 = TruncateFunction(total5, 2);
-            boletaAportes.TotalDepositado = TruncateFunction(total2 + total5, 2);
+            boletaAportes.TotalDepositado = TruncateFunction(boletaAportes.Aportes + boletaAportes.AportesAfiliados, 2);
 
             var declaracionesJuradas = db.DeclaracionJurada.ToList();
 
@@ -390,7 +185,6 @@ namespace SecSisBoletas.Areas.Administrador.Controllers
         // POST: Administrador/Listados/EditBoletaAportes/5
         // Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que desea enlazarse. Para obtener 
         // más información vea https://go.microsoft.com/fwlink/?LinkId=317598.
-
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult EditBoletaAportes([Bind(Include = "IdBoleta,IdDeclaracionJurada,MesBoleta,AnioBoleta,FechaVencimiento,TotalSueldos2,TotalSueldos5,RecargoMora,BoletaPagada,FechaPago,FechaBoleta,CantEmpleados,TotalSueldos2,Aportes2,CantAfiliados,TotalSueldos5,Aportes5")] BoletaAportes boletaAportes)
@@ -423,7 +217,7 @@ namespace SecSisBoletas.Areas.Administrador.Controllers
             decimal mora = (boletaAportes.RecargoMora != null) ? (decimal)boletaAportes.RecargoMora : 0;
             //(Math.Truncate(((sueldos / 100) * 5) * 100) / 100).ToString();
 
-            boletaAportes.TotalDepositado = TruncateFunction(boletaAportes.Aportes2 + boletaAportes.Aportes5 + mora, 2);
+            boletaAportes.TotalDepositado = TruncateFunction(boletaAportes.Aportes + boletaAportes.AportesAfiliados + mora, 2);
 
             ViewBag.IdDeclaracionJurada = new SelectList(declaracionesJuradas, "IdDeclaracionJurada", "MesAnio", boletaAportes.IdDeclaracionJurada);
             return View(boletaAportes);
@@ -459,8 +253,8 @@ namespace SecSisBoletas.Areas.Administrador.Controllers
             boletaAportes.BoletaPagada = true;
             boletaAportes.FechaPago = DateTime.Today;
 
-            decimal total2 = (boletaAportes.TotalSueldos2 / 100) * 2;
-            decimal total5 = (boletaAportes.TotalSueldos5 / 100) * 5;
+            decimal total2 = (boletaAportes.TotalSueldos / 100) * 2;
+            decimal total5 = (boletaAportes.TotalSueldosAfiliados / 100) * 5;
 
             boletaAportes.TotalPagado = TruncateFunction(total2 + total5, 2);
             db.SaveChanges();
@@ -579,7 +373,7 @@ namespace SecSisBoletas.Areas.Administrador.Controllers
                                 {
                                     if (detalle.SueldoBase > 0)
                                     {
-                                        sueldos5 += detalle.SueldoBase;
+                                        sueldos5 += detalle.SueldoBase.Value;
                                     }
                                     else
                                     {
@@ -600,7 +394,7 @@ namespace SecSisBoletas.Areas.Administrador.Controllers
                                 {
                                     if (detalle.SueldoBase > 0)
                                     {
-                                        sueldos5 += detalle.SueldoBase;
+                                        sueldos5 += detalle.SueldoBase.Value;
                                     }
                                     else
                                     {
@@ -631,8 +425,8 @@ namespace SecSisBoletas.Areas.Administrador.Controllers
                 {
                     if(boleta.FechaPago <= End)
                     {
-                        decimal total2 = TruncateFunction((boleta.TotalSueldos2 / 100) * 2, 2);
-                        decimal total5 = TruncateFunction((boleta.TotalSueldos5 / 100) * 5, 2);
+                        decimal total2 = TruncateFunction((boleta.TotalSueldos / 100) * 2, 2);
+                        decimal total5 = TruncateFunction((boleta.TotalSueldosAfiliados / 100) * 5, 2);
                         var detalles = db.DetalleDeclaracionJurada.Where(x => x.IdDeclaracionJurada == boleta.IdDeclaracionJurada).ToList();
                         boletasDeAportes.Add(new VmBoletaAportes()
                         {
@@ -642,10 +436,10 @@ namespace SecSisBoletas.Areas.Administrador.Controllers
                             Mes = boleta.MesBoleta.ToString(),
                             Anio = boleta.AnioBoleta.ToString(),
                             CantEmpleados = detalles.Count().ToString(),
-                            TotalSueldos = boleta.TotalSueldos2.ToString(),
+                            TotalSueldos = boleta.TotalSueldos.ToString(),
                             DosPorc = total2.ToString(),
                             CantAfiliados = detalles.Where(x => x.EmpleadoEmpresa.EsAfiliado).Count().ToString(),
-                            TotalSueldosAfiliados = boleta.TotalSueldos5.ToString(),
+                            TotalSueldosAfiliados = boleta.TotalSueldosAfiliados.ToString(),
                             CincoPorc = total5.ToString(),
                             CantFamiliaresACargo = "",
                             UnPorcFamiliaresACargo = "",
@@ -783,7 +577,7 @@ namespace SecSisBoletas.Areas.Administrador.Controllers
                         {
                             if (afiliado.FechaBaja == null || afiliado.FechaBaja.Value.Year > ddjj.anio || (afiliado.FechaBaja.Value.Year == ddjj.anio && afiliado.FechaBaja.Value.Month >= ddjj.mes))
                             {
-                                sueldos5 += detalle.SueldoBase;
+                                sueldos5 += detalle.SueldoBase.Value;
                                 detalle.EsAfiliado = true;
                             }
                         }
@@ -791,7 +585,7 @@ namespace SecSisBoletas.Areas.Administrador.Controllers
                         {
                             if (afiliado.FechaBaja == null || afiliado.FechaBaja.Value.Year > ddjj.anio || (afiliado.FechaBaja.Value.Year == ddjj.anio && afiliado.FechaBaja.Value.Month >= ddjj.mes))
                             {
-                                sueldos5 += detalle.SueldoBase;
+                                sueldos5 += detalle.SueldoBase.Value;
                                 detalle.EsAfiliado = true;
                             }
                         }
@@ -968,13 +762,13 @@ namespace SecSisBoletas.Areas.Administrador.Controllers
                         {
                             if(detalle.idJornadaLaboral == 1 || detalle.idJornadaLaboral == 2)
                             {
-                                totalAportes += Math.Round(((detalle.SueldoBase / 100) * 5), 2);
+                                totalAportes += Math.Round(((detalle.SueldoBase.Value / 100) * 5), 2);
                             }
                             else
                             {
                                 totalAportes += Math.Round(((detalle.Sueldo / 100) * 5), 2);
                             }
-                            totalSueldosBase += detalle.SueldoBase;
+                            totalSueldosBase += detalle.SueldoBase.Value;
                             detalle.EsAfiliado = true;
                         }
                     }
@@ -984,13 +778,13 @@ namespace SecSisBoletas.Areas.Administrador.Controllers
                         {
                             if (detalle.idJornadaLaboral == 1 || detalle.idJornadaLaboral == 2)
                             {
-                                totalAportes += Math.Round(((detalle.SueldoBase / 100) * 5), 2);
+                                totalAportes += Math.Round(((detalle.SueldoBase.Value / 100) * 5), 2);
                             }
                             else
                             {
                                 totalAportes += Math.Round(((detalle.Sueldo / 100) * 5), 2);
                             }
-                            totalSueldosBase += detalle.SueldoBase;
+                            totalSueldosBase += detalle.SueldoBase.Value;
                             detalle.EsAfiliado = true;
                         }
                     }
@@ -1224,7 +1018,8 @@ namespace SecSisBoletas.Areas.Administrador.Controllers
                 searchString = currentFilter;
             }
 
-            var empresa = db.Empresa.Include(e => e.Actividad).Include(e => e.Localidad);
+            //.Include(e => e.Actividad)
+            var empresa = db.Empresa.Include(e => e.Localidad);
 
             if (idProvincia != 0)
             {
@@ -1451,7 +1246,8 @@ namespace SecSisBoletas.Areas.Administrador.Controllers
 
             //Datos de la Empresa
 
-            var empresa = db.Empresa.Include(e => e.Actividad).Include(e => e.Localidad);
+            //.Include(e => e.Actividad)
+            var empresa = db.Empresa.Include(e => e.Localidad);
 
             if (IdProvinciaSeleccionada != 0)
             {
@@ -2157,7 +1953,8 @@ namespace SecSisBoletas.Areas.Administrador.Controllers
             VmEmpleadosEmpresas tvm;
 
             //Datos de la Empresa
-            var empresa = db.Empresa.Include(e => e.Actividad).Include(e => e.Localidad);
+            //.Include(e => e.Actividad)
+            var empresa = db.Empresa.Include(e => e.Localidad);
 
             if (IdProvinciaSeleccionada != 0)
             {
@@ -2637,7 +2434,8 @@ namespace SecSisBoletas.Areas.Administrador.Controllers
             VmEmpleadosEmpresas tvm;
 
             //Datos de la Empresa
-            var empresa = db.Empresa.Include(e => e.Actividad).Include(e => e.Localidad);
+            //.Include(e => e.Actividad)
+            var empresa = db.Empresa.Include(e => e.Localidad);
 
             if (IdProvinciaSeleccionada != 0)
             {

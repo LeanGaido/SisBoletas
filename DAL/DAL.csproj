@@ -165,6 +165,26 @@
     <Compile Include="Migrations\202006111505163_DatosDeBaja_tblBoletas-tblBoletasEspeciales.Designer.cs">
       <DependentUpon>202006111505163_DatosDeBaja_tblBoletas-tblBoletasEspeciales.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202008041429283_Presentismo.cs" />
+    <Compile Include="Migrations\202008041429283_Presentismo.Designer.cs">
+      <DependentUpon>202008041429283_Presentismo.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202008042105226_tblParametros_Cambios_tblBoletasDeAportes-tblBoletasDeAportesEspeciales.cs" />
+    <Compile Include="Migrations\202008042105226_tblParametros_Cambios_tblBoletasDeAportes-tblBoletasDeAportesEspeciales.Designer.cs">
+      <DependentUpon>202008042105226_tblParametros_Cambios_tblBoletasDeAportes-tblBoletasDeAportesEspeciales.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202008042117124_tblEmpresa_IdActivida-nulleable.cs" />
+    <Compile Include="Migrations\202008042117124_tblEmpresa_IdActivida-nulleable.Designer.cs">
+      <DependentUpon>202008042117124_tblEmpresa_IdActivida-nulleable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202008042141454_SueldoBase_DefalutValue.cs" />
+    <Compile Include="Migrations\202008042141454_SueldoBase_DefalutValue.Designer.cs">
+      <DependentUpon>202008042141454_SueldoBase_DefalutValue.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202008042153405_SueldoBase_DefalutValue_v2.cs" />
+    <Compile Include="Migrations\202008042153405_SueldoBase_DefalutValue_v2.Designer.cs">
+      <DependentUpon>202008042153405_SueldoBase_DefalutValue_v2.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Actividad.cs" />
     <Compile Include="Models\Afiliado.cs" />
@@ -184,6 +204,7 @@
     <Compile Include="Models\LiquidacionProporcional.cs" />
     <Compile Include="Models\LiquidacionProporcionalEmpleado.cs" />
     <Compile Include="Models\Localidad.cs" />
+    <Compile Include="Models\ParametroGeneral.cs" />
     <Compile Include="Models\Reclamo.cs" />
     <Compile Include="Models\TurnoEmpleado.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -288,6 +309,21 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202006111505163_DatosDeBaja_tblBoletas-tblBoletasEspeciales.resx">
       <DependentUpon>202006111505163_DatosDeBaja_tblBoletas-tblBoletasEspeciales.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202008041429283_Presentismo.resx">
+      <DependentUpon>202008041429283_Presentismo.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202008042105226_tblParametros_Cambios_tblBoletasDeAportes-tblBoletasDeAportesEspeciales.resx">
+      <DependentUpon>202008042105226_tblParametros_Cambios_tblBoletasDeAportes-tblBoletasDeAportesEspeciales.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202008042117124_tblEmpresa_IdActivida-nulleable.resx">
+      <DependentUpon>202008042117124_tblEmpresa_IdActivida-nulleable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202008042141454_SueldoBase_DefalutValue.resx">
+      <DependentUpon>202008042141454_SueldoBase_DefalutValue.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202008042153405_SueldoBase_DefalutValue_v2.resx">
+      <DependentUpon>202008042153405_SueldoBase_DefalutValue_v2.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

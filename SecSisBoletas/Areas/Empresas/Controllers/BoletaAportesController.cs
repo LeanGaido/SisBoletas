@@ -41,75 +41,8 @@ namespace SecSisBoletas.Areas.Empresas.Controllers
 
             foreach (var boleta in boletaAportes)
             {
-
-                DeclaracionJurada ddjj = db.DeclaracionJurada.Where(x => x.IdDeclaracionJurada == boleta.IdDeclaracionJurada).FirstOrDefault();
-
-                var empleados = db.DetalleDeclaracionJurada.Where(x => x.IdDeclaracionJurada == ddjj.IdDeclaracionJurada).ToList();
-
-                int count2 = 0, count5 = 0;
-                decimal sueldos2 = 0, sueldos5 = 0;
-                foreach (var empleado in empleados)
-                {
-                    sueldos2 += empleado.Sueldo;
-                    count2++;
-                    var afiliado = db.Afiliado.Where(x => x.IdEmpleadoEmpresa == empleado.IdEmpleadoEmpresa).FirstOrDefault();
-                    if (afiliado != null)
-                    {
-                        if (afiliado.FechaAlta.Year < ddjj.anio)
-                        {
-                            if (afiliado.FechaBaja == null || afiliado.FechaBaja.Value.Year > ddjj.anio || (afiliado.FechaBaja.Value.Year == ddjj.anio && afiliado.FechaBaja.Value.Month >= ddjj.mes))
-                            {
-                                //if (empleado.idJornadaLaboral == 1 || empleado.idJornadaLaboral == 2)
-                                //{
-                                //if (empleado.SueldoBase > 0)
-                                //{
-                                sueldos5 += empleado.SueldoBase;
-                                //}
-                                //else
-                                //{
-                                //    sueldos5 += empleado.Sueldo;
-                                //}
-                                //}
-                                //else
-                                //{
-                                //    sueldos5 += empleado.Sueldo;
-                                //}
-                                count5++;
-                            }
-                        }
-                        else if (afiliado.FechaAlta.Year == ddjj.anio && afiliado.FechaAlta.Month <= ddjj.mes)
-                        {
-                            if (afiliado.FechaBaja == null || afiliado.FechaBaja.Value.Year > ddjj.anio || (afiliado.FechaBaja.Value.Year == ddjj.anio && afiliado.FechaBaja.Value.Month >= ddjj.mes))
-                            {
-                                //if (empleado.idJornadaLaboral == 1 || empleado.idJornadaLaboral == 2)
-                                //{
-                                //if (empleado.SueldoBase > 0)
-                                //{
-                                sueldos5 += empleado.SueldoBase;
-                                //}
-                                //else
-                                //{
-                                //    sueldos5 += empleado.Sueldo;
-                                //}
-                                //}
-                                //else
-                                //{
-                                //    sueldos5 += empleado.Sueldo;
-                                //}
-                                count5++;
-                            }
-                        }
-                    }
-                }
-
-                decimal total2 = (sueldos2 / 100) * 2;
-                decimal total5 = (sueldos5 / 100) * 5;
-
                 decimal mora = (boleta.RecargoMora != null) ? (decimal)boleta.RecargoMora : 0;
-                //(Math.Truncate(((sueldos / 100) * 5) * 100) / 100).ToString();
-                boleta.TotalDepositado2 = TruncateFunction(total2, 2);
-                boleta.TotalDepositado5 = TruncateFunction(total5, 2);
-                boleta.TotalDepositado = TruncateFunction(total2 + total5 + mora, 2);
+                boleta.TotalDepositado = TruncateFunction(boleta.Aportes + boleta.AportesAfiliados + mora, 2);
             }
 
             ViewBag.Mes = mes;
@@ -136,76 +69,8 @@ namespace SecSisBoletas.Areas.Empresas.Controllers
 
             DeclaracionJurada ddjj = db.DeclaracionJurada.Where(x => x.IdDeclaracionJurada == boletaAportes.IdDeclaracionJurada).FirstOrDefault();
 
-            var empleados = db.DetalleDeclaracionJurada.Where(x => x.IdDeclaracionJurada == ddjj.IdDeclaracionJurada).ToList();
-
-            int count2 = 0, count5 = 0;
-            decimal sueldos2 = 0, sueldos5 = 0;
-            foreach (var empleado in empleados)
-            {
-                sueldos2 += empleado.Sueldo;
-                count2++;
-                var afiliado = db.Afiliado.Where(x => x.IdEmpleadoEmpresa == empleado.IdEmpleadoEmpresa).FirstOrDefault();
-                if (afiliado != null)
-                {
-                    if (afiliado.FechaAlta.Year < ddjj.anio)
-                    {
-                        if (afiliado.FechaBaja == null || afiliado.FechaBaja.Value.Year > ddjj.anio || (afiliado.FechaBaja.Value.Year == ddjj.anio && afiliado.FechaBaja.Value.Month >= ddjj.mes))
-                        {
-                            //if (empleado.idJornadaLaboral == 1 || empleado.idJornadaLaboral == 2)
-                            //{
-                            //if (empleado.SueldoBase > 0)
-                            //{
-                            sueldos5 += empleado.SueldoBase;
-                            //}
-                            //else
-                            //{
-                            //    sueldos5 += empleado.Sueldo;
-                            //}
-                            //}
-                            //else
-                            //{
-                            //    sueldos5 += empleado.Sueldo;
-                            //}
-                            count5++;
-                        }
-                    }
-                    else if (afiliado.FechaAlta.Year == ddjj.anio && afiliado.FechaAlta.Month <= ddjj.mes)
-                    {
-                        if (afiliado.FechaBaja == null || afiliado.FechaBaja.Value.Year > ddjj.anio || (afiliado.FechaBaja.Value.Year == ddjj.anio && afiliado.FechaBaja.Value.Month >= ddjj.mes))
-                        {
-                            //if (empleado.idJornadaLaboral == 1 || empleado.idJornadaLaboral == 2)
-                            //{
-                            //if (empleado.SueldoBase > 0)
-                            //{
-                            sueldos5 += empleado.SueldoBase;
-                            //}
-                            //else
-                            //{
-                            //    sueldos5 += empleado.Sueldo;
-                            //}
-                            //}
-                            //else
-                            //{
-                            //    sueldos5 += empleado.Sueldo;
-                            //}
-                            count5++;
-                        }
-                    }
-                }
-            }
-
-            boletaAportes.TotalSueldos2 = TruncateFunction(sueldos2, 2);
-
-            boletaAportes.TotalSueldos5 = TruncateFunction(sueldos5, 2);
-
-            decimal total2 = (sueldos2 / 100) * 2;
-            decimal total5 = (sueldos5 / 100) * 5;
-
             decimal mora = (boletaAportes.RecargoMora != null) ? (decimal)boletaAportes.RecargoMora : 0;
-            //(Math.Truncate(((sueldos / 100) * 5) * 100) / 100).ToString();
-            boletaAportes.TotalDepositado2 = TruncateFunction(total2, 2);//Math.Truncate((total2 * 100) / (decimal)100);// Math.Truncate(total2);
-            boletaAportes.TotalDepositado5 = TruncateFunction(total5, 2);//Math.Truncate((total5 * 100) / 100);// Math.Truncate(total5);
-            boletaAportes.TotalDepositado = TruncateFunction(total2 + total5 + mora, 2);//Math.Truncate(((total2 + total5 + mora) * 100) / 100); //Math.Truncate(total2 + total5 + mora);
+            boletaAportes.TotalDepositado = TruncateFunction(boletaAportes.Aportes + boletaAportes.AportesAfiliados + mora, 2);
 
             ViewBag.IdEmpresa = ddjj.idEmpresa;
 
@@ -248,7 +113,7 @@ namespace SecSisBoletas.Areas.Empresas.Controllers
 
             ViewBag.IdDeclaracionJurada = new SelectList(declaracionesJuradas, "IdDeclaracionJurada", "MesAnio", boletaAportes.IdDeclaracionJurada);
 
-            int cantEmpleados = db.EmpleadoEmpresa.Where(x => x.idEmpresa == IdEmpresa &&
+            int cantEmpleadosContratados = db.EmpleadoEmpresa.Where(x => x.idEmpresa == IdEmpresa &&
                                                               x.FechaAlta.Month <= boletaAportes.MesBoleta &&
                                                               x.FechaAlta.Year <= boletaAportes.AnioBoleta &&
                                                               (x.FechaBaja.Value == null)).Count();
@@ -259,9 +124,9 @@ namespace SecSisBoletas.Areas.Empresas.Controllers
                                                                                 x.DeclaracionJurada.mes == boletaAportes.MesBoleta &&
                                                                                 x.DeclaracionJurada.anio == boletaAportes.AnioBoleta).Count();
 
-            if(cantDetalleDeclaracion < cantEmpleados)
+            if(cantDetalleDeclaracion < cantEmpleadosContratados)
             {
-                ModelState.AddModelError("IdDeclaracionJurada", "No todos los empleados estan declarados en la declararion jurada");
+                ModelState.AddModelError("IdDeclaracionJurada", "No todos los empleados contratados estan declarados en la declararion jurada");
                 return View(boletaAportes);
             }
 
@@ -273,52 +138,97 @@ namespace SecSisBoletas.Areas.Empresas.Controllers
 
             var ddjj = db.DeclaracionJurada.Where(x => x.IdDeclaracionJurada == boletaAportes.IdDeclaracionJurada).FirstOrDefault();
 
-            boletaAportes.TotalSueldos2 = db.DetalleDeclaracionJurada.Where(x => x.IdDeclaracionJurada == boletaAportes.IdDeclaracionJurada).Sum(x => x.Sueldo);
+            //boletaAportes.TotalSueldos = db.DetalleDeclaracionJurada.Where(x => x.IdDeclaracionJurada == boletaAportes.IdDeclaracionJurada).Sum(x => x.Sueldo);
             var detalles = db.DetalleDeclaracionJurada.Where(x => x.IdDeclaracionJurada == boletaAportes.IdDeclaracionJurada).ToList();
 
-            int count2 = 0, count5 = 0;
-            decimal sueldos2 = 0, sueldos5 = 0;
+            int cantEmpleados = 0, cantAfiliado = 0;
+
+            #region Calcular Aportes
+            var CalcularAportes = db.ParametrosGenerales.AsNoTracking().Where(x => x.Key == "CalcularAportes").FirstOrDefault();
+
+            if (CalcularAportes == null)
+            {
+                CalcularAportes = new ParametroGeneral();
+                CalcularAportes.Key = "CalcularAportes";
+                CalcularAportes.Value = "True";
+            }
+            #endregion
+
+            #region CalcularAportesAfiliados
+            var CalcularAportesAfiliados = db.ParametrosGenerales.AsNoTracking().Where(x => x.Key == "CalcularAportesAfiliados").FirstOrDefault();
+
+            if (CalcularAportesAfiliados == null)
+            {
+                CalcularAportesAfiliados = new ParametroGeneral();
+                CalcularAportesAfiliados.Key = "CalcularAportesAfiliados";
+                CalcularAportesAfiliados.Value = "True";
+            }
+            #endregion
 
             foreach (var detalle in detalles)
             {
                 var empEmpAux = db.EmpleadoEmpresa.Where(x => x.idEmpleadoEmpresa == detalle.IdEmpleadoEmpresa).FirstOrDefault();
 
                 var empleado = db.Empleado.Where(x => x.IdEmpleado == empEmpAux.idEmpleado).FirstOrDefault();
-
-                count2++;
-                sueldos2 += detalle.Sueldo;
-
-                var afiliado = db.Afiliado.Where(x => x.IdEmpleadoEmpresa == empEmpAux.idEmpleadoEmpresa).FirstOrDefault();
-                if (afiliado != null)
+                
+                if(CalcularAportes.Value == "True")
                 {
-                    if (afiliado.FechaAlta.Year < ddjj.anio)
+                    cantEmpleados++;
+                    boletaAportes.TotalSueldos += detalle.Sueldo;
+                }
+
+                if(CalcularAportesAfiliados.Value == "True")
+                {
+                    var afiliado = db.Afiliado.Where(x => x.IdEmpleadoEmpresa == empEmpAux.idEmpleadoEmpresa).FirstOrDefault();
+                    if (afiliado != null)
                     {
-                        if (afiliado.FechaBaja == null || afiliado.FechaBaja.Value.Year > ddjj.anio || (afiliado.FechaBaja.Value.Year == ddjj.anio && afiliado.FechaBaja.Value.Month >= ddjj.mes))
+                        if (afiliado.FechaAlta.Year < ddjj.anio)
                         {
-                            count5++;
-                            sueldos5 += detalle.SueldoBase;
-                            boletaAportes.TotalSueldos5 += detalle.SueldoBase;
+                            if (afiliado.FechaBaja == null || afiliado.FechaBaja.Value.Year > ddjj.anio || (afiliado.FechaBaja.Value.Year == ddjj.anio && afiliado.FechaBaja.Value.Month >= ddjj.mes))
+                            {
+                                cantAfiliado++;
+                                boletaAportes.TotalSueldosAfiliados += (empEmpAux.IdJornada == 1 || empEmpAux.IdJornada == 2) ? detalle.SueldoBase.Value : detalle.Sueldo;
+                            }
                         }
-                    }
-                    else if (afiliado.FechaAlta.Year == ddjj.anio && afiliado.FechaAlta.Month <= ddjj.mes)
-                    {
-                        if (afiliado.FechaBaja == null || afiliado.FechaBaja.Value.Year > ddjj.anio || (afiliado.FechaBaja.Value.Year == ddjj.anio && afiliado.FechaBaja.Value.Month >= ddjj.mes))
+                        else if (afiliado.FechaAlta.Year == ddjj.anio && afiliado.FechaAlta.Month <= ddjj.mes)
                         {
-                            count5++;
-                            sueldos5 += detalle.SueldoBase;
-                            boletaAportes.TotalSueldos5 += detalle.SueldoBase;
+                            if (afiliado.FechaBaja == null || afiliado.FechaBaja.Value.Year > ddjj.anio || (afiliado.FechaBaja.Value.Year == ddjj.anio && afiliado.FechaBaja.Value.Month >= ddjj.mes))
+                            {
+                                cantAfiliado++;
+                                boletaAportes.TotalSueldosAfiliados += (empEmpAux.IdJornada == 1 || empEmpAux.IdJornada == 2) ? detalle.SueldoBase.Value : detalle.Sueldo;
+                            }
                         }
                     }
                 }
             }
 
-            boletaAportes.CantEmpleados = count2;
-            boletaAportes.TotalSueldos2 = sueldos2;
-            boletaAportes.Aportes2 = TruncateFunction((sueldos2/100)*2,2);
+            #region Aportes
+            var porcAportes = db.ParametrosGenerales.AsNoTracking().Where(x => x.Key == "PorcAportes").FirstOrDefault();
 
-            boletaAportes.CantAfiliados = count5;
-            boletaAportes.TotalSueldos5 = sueldos5;
-            boletaAportes.Aportes5 = TruncateFunction((sueldos5 / 100) * 5, 2);
+            if(porcAportes == null)
+            {
+                porcAportes = new ParametroGeneral();
+                porcAportes.Key = "PorcAportes";
+                porcAportes.Value = "2";
+            }
+
+            boletaAportes.CantEmpleados = cantEmpleados;
+            boletaAportes.Aportes = TruncateFunction((boletaAportes.TotalSueldos / 100) * decimal.Parse(porcAportes.Value), 2);
+            #endregion
+
+            #region AportesAfiliados
+            var porcAportesAfiliados = db.ParametrosGenerales.AsNoTracking().Where(x => x.Key == "PorcAportesAfiliados").FirstOrDefault();
+
+            if (porcAportesAfiliados == null)
+            {
+                porcAportesAfiliados = new ParametroGeneral();
+                porcAportesAfiliados.Key = "PorcAportesAfiliados";
+                porcAportesAfiliados.Value = "5";
+            }
+
+            boletaAportes.CantAfiliados = cantAfiliado;
+            boletaAportes.AportesAfiliados = TruncateFunction((boletaAportes.TotalSueldosAfiliados / 100) * decimal.Parse(porcAportesAfiliados.Value), 2);
+            #endregion
 
             boletaAportes.FechaBoleta = DateTime.Today;
             boletaAportes.FechaVencimiento = GenerarVencimiento(boletaAportes.MesBoleta, boletaAportes.AnioBoleta);
@@ -339,100 +249,6 @@ namespace SecSisBoletas.Areas.Empresas.Controllers
         {
             return View();
         }
-
-        //// GET: Empresas/BoletaAportes/Edit/5
-        //public ActionResult Edit(int? id)
-        //{
-        //    if (id == null)
-        //    {
-        //        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-        //    }
-        //    BoletaAportes boletaAportes = db.BoletaAportes.Find(id);
-        //    if (boletaAportes == null)
-        //    {
-        //        return HttpNotFound();
-        //    }
-
-        //    if (boletaAportes.BoletaPagada)
-        //    {
-        //        return RedirectToAction("Index", new { mes = boletaAportes.MesBoleta, anio = boletaAportes.AnioBoleta });
-        //    }
-
-        //    var claim = ((ClaimsIdentity)User.Identity).FindFirst("IdEmpresa");
-        //    int IdEmpresa = Convert.ToInt32(claim.Value);
-
-        //    var declaracionesJuradas = db.DeclaracionJurada.Where(x => x.idEmpresa == IdEmpresa).ToList();
-
-        //    foreach (DeclaracionJurada declaracion in declaracionesJuradas)
-        //    {
-        //        declaracion.MesAnio = declaracion.mes + "/" + declaracion.anio;
-        //    }
-
-        //    ViewBag.IdDeclaracionJurada = new SelectList(declaracionesJuradas, "IdDeclaracionJurada", "MesAnio", boletaAportes.IdDeclaracionJurada);
-        //    return View(boletaAportes);
-        //}
-
-        //// POST: Empresas/BoletaAportes/Edit/5
-        //// Para protegerse de ataques de publicación excesiva, habilite las propiedades específicas a las que desea enlazarse. Para obtener 
-        //// más información vea https://go.microsoft.com/fwlink/?LinkId=317598.
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public ActionResult Edit([Bind(Include = "IdBoleta,IdDeclaracionJurada,MesBoleta,AnioBoleta,FechaVencimiento,TotalSueldos,RecargoMora,BoletaPagada,FechaPago,FechaBoleta")] BoletaAportes boletaAportes)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        db.Entry(boletaAportes).State = EntityState.Modified;
-        //        db.SaveChanges();
-        //        return RedirectToAction("Index");
-        //    }
-        //    var claim = ((ClaimsIdentity)User.Identity).FindFirst("IdEmpresa");
-        //    int IdEmpresa = Convert.ToInt32(claim.Value);
-
-        //    var declaracionesJuradas = db.DeclaracionJurada.Where(x => x.idEmpresa == IdEmpresa).ToList();
-
-        //    foreach (DeclaracionJurada declaracion in declaracionesJuradas)
-        //    {
-        //        declaracion.MesAnio = declaracion.mes + "/" + declaracion.anio;
-        //    }
-
-        //    ViewBag.IdDeclaracionJurada = new SelectList(declaracionesJuradas, "IdDeclaracionJurada", "MesAnio", boletaAportes.IdDeclaracionJurada);
-        //    return View(boletaAportes);
-        //}
-
-
-        //// GET: Empresas/BoletaAportes/Delete/5
-        //public ActionResult Delete(int? id)
-        //{
-        //    if (id == null)
-        //    {
-        //        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-        //    }
-        //    BoletaAportes boletaAportes = db.BoletaAportes.Find(id);
-        //    if (boletaAportes == null)
-        //    {
-        //        return HttpNotFound();
-        //    }
-        //    if (boletaAportes.BoletaPagada)
-        //    {
-        //        return RedirectToAction("Index", new { mes = boletaAportes.MesBoleta, anio = boletaAportes.AnioBoleta } );
-        //    }
-        //    return View(boletaAportes);
-        //}
-
-        //// POST: Empresas/BoletaAportes/Delete/5
-        //[HttpPost, ActionName("Delete")]
-        //[ValidateAntiForgeryToken]
-        //public ActionResult DeleteConfirmed(int id)
-        //{
-        //    BoletaAportes boletaAportes = db.BoletaAportes.Find(id);
-        //    if (boletaAportes.BoletaPagada)
-        //    {
-        //        return RedirectToAction("CantDeleteMessage", new { mes = boletaAportes.MesBoleta, anio = boletaAportes.AnioBoleta });
-        //    }
-        //    db.BoletaAportes.Remove(boletaAportes);
-        //    db.SaveChanges();
-        //    return RedirectToAction("DeleteMessage");
-        //}
 
         public ActionResult DeleteMessage()
         {
