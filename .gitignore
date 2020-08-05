@@ -8,7 +8,7 @@
 /SecSisBoletas/obj/Release/SecSisBoletas.csproj.CoreCompileInputs.cache
 
 # Visual Studio 2015/2017 cache/options directory
-.vs/
+.vs\
 
 DAL\obj
 
