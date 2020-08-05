@@ -794,8 +794,8 @@ namespace SecSisBoletas.Areas.Empresas.Controllers
             }
             ViewBag.IdLocalidad = new SelectList(localidades, "IdLocalidad", "Nombre");
             ViewBag.IdProvincia = new SelectList(db.Provincia, "IdProvincia", "Nombre",5);
-            ViewBag.IdCategoria = new SelectList(db.Categoria, "IdCategoria", "Descripcion");
-            ViewBag.IdJornada = new SelectList(db.Jornada, "IdJornada", "Descripcion", 3);
+            ViewBag.IdCategoria = new SelectList(db.Categoria.Where(x => x.Inactiva == false), "IdCategoria", "Descripcion");
+            ViewBag.IdJornada = new SelectList(db.Jornada.Where(x => x.Inactiva == false), "IdJornada", "Descripcion", 3);
             return View();
         }
 
@@ -814,8 +814,8 @@ namespace SecSisBoletas.Areas.Empresas.Controllers
                 localidad.NombreCodPostal = localidad.Nombre + " (" + localidad.CodPostal + ")";
             }
             ViewBag.IdLocalidad = new SelectList(localidades, "IdLocalidad", "NombreCodPostal", empleado.IdLocalidad);
-            ViewBag.IdCategoria = new SelectList(db.Categoria, "IdCategoria", "Descripcion", empleado.IdCategoria);
-            ViewBag.IdJornada = new SelectList(db.Jornada, "IdJornada", "Descripcion", empleado.IdJornada);
+            ViewBag.IdCategoria = new SelectList(db.Categoria.Where(x => x.Inactiva == false), "IdCategoria", "Descripcion", empleado.IdCategoria);
+            ViewBag.IdJornada = new SelectList(db.Jornada.Where(x => x.Inactiva == false), "IdJornada", "Descripcion", empleado.IdJornada);
 
             if (ModelState.IsValid)
             {
@@ -1238,9 +1238,8 @@ namespace SecSisBoletas.Areas.Empresas.Controllers
             var localidad = db.Localidad.Where(x => x.IdLocalidad == empleado.IdLocalidad).FirstOrDefault();
             ViewBag.IdProvincia = new SelectList(db.Provincia, "IdProvincia", "Nombre", localidad.IdProvincia);
 
-            var empleadoEmpresa = db.EmpleadoEmpresa.Where(x => x.idEmpleado == empleado.IdEmpleado && x.idEmpresa == IdEmpresa && x.FechaBaja == null).FirstOrDefault();
-            ViewBag.IdCategoria = new SelectList(db.Categoria, "IdCategoria", "Descripcion", empleadoEmpresa.IdCategoria);
-            ViewBag.IdJornada = new SelectList(db.Jornada, "IdJornada", "Descripcion", empleadoEmpresa.IdJornada);
+            ViewBag.IdCategoria = new SelectList(db.Categoria.Where(x => x.Inactiva == false), "IdCategoria", "Descripcion", empEmp.IdCategoria);
+            ViewBag.IdJornada = new SelectList(db.Jornada.Where(x => x.Inactiva == false), "IdJornada", "Descripcion", empEmp.IdJornada);
             return View(empleado);
         }
 
@@ -1261,8 +1260,8 @@ namespace SecSisBoletas.Areas.Empresas.Controllers
             var localidad = db.Localidad.Where(x => x.IdLocalidad == empleado.IdLocalidad).FirstOrDefault();
             var empleadoEmpresa = db.EmpleadoEmpresa.Where(x => x.idEmpleado == empleado.IdEmpleado).FirstOrDefault();
             ViewBag.IdProvincia = new SelectList(db.Provincia, "IdProvincia", "Nombre", localidad.IdProvincia);
-            ViewBag.IdCategoria = new SelectList(db.Categoria, "IdCategoria", "Descripcion", empleadoEmpresa.IdCategoria);
-            ViewBag.IdJornada = new SelectList(db.Jornada, "IdJornada", "Descripcion", empleadoEmpresa.IdJornada);
+            ViewBag.IdCategoria = new SelectList(db.Categoria.Where(x => x.Inactiva == false), "IdCategoria", "Descripcion", empleadoEmpresa.IdCategoria);
+            ViewBag.IdJornada = new SelectList(db.Jornada.Where(x => x.Inactiva == false), "IdJornada", "Descripcion", empleadoEmpresa.IdJornada);
 
             if (ModelState.IsValid)
             {

@@ -142,3 +142,4 @@ C:\Users\LeaN\source\repos\SisBoletas\DAL\obj\Debug\DAL.Migrations.tblParametros
 C:\Users\LeaN\source\repos\SisBoletas\DAL\obj\Debug\DAL.Migrations.tblEmpresa_IdActividanulleable.resources
 C:\Users\LeaN\source\repos\SisBoletas\DAL\obj\Debug\DAL.Migrations.SueldoBase_DefalutValue.resources
 C:\Users\LeaN\source\repos\SisBoletas\DAL\obj\Debug\DAL.Migrations.SueldoBase_DefalutValue_v2.resources
+C:\Users\LeaN\source\repos\SisBoletas\DAL\obj\Debug\DAL.Migrations.tblParametrosEmpresas.resources

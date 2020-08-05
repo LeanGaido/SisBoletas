@@ -185,6 +185,10 @@
     <Compile Include="Migrations\202008042153405_SueldoBase_DefalutValue_v2.Designer.cs">
       <DependentUpon>202008042153405_SueldoBase_DefalutValue_v2.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202008051243294_tblParametrosEmpresas.cs" />
+    <Compile Include="Migrations\202008051243294_tblParametrosEmpresas.Designer.cs">
+      <DependentUpon>202008051243294_tblParametrosEmpresas.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Actividad.cs" />
     <Compile Include="Models\Afiliado.cs" />
@@ -204,6 +208,7 @@
     <Compile Include="Models\LiquidacionProporcional.cs" />
     <Compile Include="Models\LiquidacionProporcionalEmpleado.cs" />
     <Compile Include="Models\Localidad.cs" />
+    <Compile Include="Models\ParametroEmpresa.cs" />
     <Compile Include="Models\ParametroGeneral.cs" />
     <Compile Include="Models\Reclamo.cs" />
     <Compile Include="Models\TurnoEmpleado.cs" />
@@ -324,6 +329,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202008042153405_SueldoBase_DefalutValue_v2.resx">
       <DependentUpon>202008042153405_SueldoBase_DefalutValue_v2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202008051243294_tblParametrosEmpresas.resx">
+      <DependentUpon>202008051243294_tblParametrosEmpresas.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

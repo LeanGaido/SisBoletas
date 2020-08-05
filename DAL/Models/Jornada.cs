@@ -20,6 +20,8 @@ namespace DAL.Models
         [StringLength(maximumLength: 30, ErrorMessage = "El Nombre de la jornada no puede superar los 30 caracteres")]
         public string Descripcion { get; set; }
 
+        public bool Inactiva { get; set; }
+
         public virtual ICollection<EmpleadoEmpresa> Empleados { get; set; }
     }
 }

@@ -38,6 +38,7 @@ namespace DAL
         public DbSet<HorarioEmpleado> HorarioEmpleado { get; set; }
         public DbSet<BoletaAportesEspecial> BoletaAportesEspeciales { get; set; }
         public DbSet<ParametroGeneral> ParametrosGenerales { get; set; }
+        public DbSet<ParametroEmpresa> ParametrosEmpresas { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

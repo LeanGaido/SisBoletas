@@ -76,7 +76,7 @@ namespace SecSisBoletas.Areas.Empresas.Controllers
                 
                 boletaNueva.Aportes = (Math.Truncate(((boletaAux.TotalSueldos / 100) * 2) * 100) / 100).ToString();
 
-                boletaNueva.CantAfiliados = boletaAux.TotalSueldosAfiliados.ToString();
+                boletaNueva.CantAfiliados = boletaAux.CantAfiliados.ToString();
                 boletaNueva.TotalSueldosAfiliados = boletaAux.TotalSueldosAfiliados.ToString();
                 
                 boletaNueva.AportesAfiliados = (Math.Truncate(((boletaAux.TotalSueldosAfiliados / 100) * 5) * 100) / 100).ToString();
